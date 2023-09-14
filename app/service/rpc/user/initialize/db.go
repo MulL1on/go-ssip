@@ -12,7 +12,7 @@ import (
 )
 
 func InitDB() *gorm.DB {
-	c := g.GlobalServerConfig.MysqlInfo
+	c := g.ServerConfig.MysqlInfo
 	dsn := fmt.Sprintf(consts.MysqlDSN, c.User, c.Password, c.Host, c.Port, c.Name)
 
 	//global mode

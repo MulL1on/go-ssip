@@ -15,8 +15,8 @@ import (
 
 func InitRegistry(Port int) (registry.Registry, *registry.Info) {
 	r, err := consul.NewConsulRegister(net.JoinHostPort(
-		g.GlobalConsulConfig.Host,
-		strconv.Itoa(g.GlobalConsulConfig.Port)),
+		g.ConsulConfig.Host,
+		strconv.Itoa(g.ConsulConfig.Port)),
 		consul.WithCheck(&api.AgentServiceCheck{
 			Interval:                       consts.ConsulCheckInterval,
 			Timeout:                        consts.ConsulCheckTimeout,
@@ -33,8 +33,8 @@ func InitRegistry(Port int) (registry.Registry, *registry.Info) {
 		g.Logger.Fatal("create snowflake error", zap.Error(err))
 	}
 	info := &registry.Info{
-		ServiceName: g.GlobalServerConfig.Name,
-		Addr:        utils.NewNetAddr(consts.TCP, net.JoinHostPort(g.GlobalServerConfig.Host, strconv.Itoa(Port))),
+		ServiceName: g.ServerConfig.Name,
+		Addr:        utils.NewNetAddr(consts.TCP, net.JoinHostPort(g.ServerConfig.Host, strconv.Itoa(Port))),
 		Tags: map[string]string{
 			"ID": sf.Generate().Base36(),
 		},

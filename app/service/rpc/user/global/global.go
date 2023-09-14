@@ -6,8 +6,8 @@ import (
 )
 
 var (
-	GlobalConsulConfig config.ConsulConfig
-	GlobalServerConfig config.ServerConfig
+	ConsulConfig config.ConsulConfig
+	ServerConfig config.ServerConfig
 
 	Logger *zap.Logger
 )

@@ -29,8 +29,8 @@ func main() {
 	r, info := initialize.InitRegistry(Port)
 	db := initialize.InitDB()
 	p := provider.NewOpenTelemetryProvider(
-		provider.WithServiceName(g.GlobalServerConfig.Name),
-		provider.WithExportEndpoint(g.GlobalServerConfig.OtelInfo.EndPoint),
+		provider.WithServiceName(g.ServerConfig.Name),
+		provider.WithExportEndpoint(g.ServerConfig.OtelInfo.EndPoint),
 		provider.WithInsecure(),
 	)
 	defer p.Shutdown(context.Background())
@@ -43,8 +43,8 @@ func main() {
 	}
 
 	svr := userservice.NewServer(&UserServiceImpl{
-		EncryptManager: &md5.EncryptManager{Salt: g.GlobalServerConfig.MysqlInfo.Salt},
-		MysqlManager:   mysql.NewUserManager(db, g.GlobalServerConfig.MysqlInfo.Salt),
+		EncryptManager: &md5.EncryptManager{Salt: g.ServerConfig.MysqlInfo.Salt},
+		MysqlManager:   mysql.NewUserManager(db, g.ServerConfig.MysqlInfo.Salt),
 		IDGenerator:    uid.NewIDGenerator(),
 		TokenGenerator: tg,
 	},
@@ -54,7 +54,7 @@ func main() {
 		server.WithRegistryInfo(info),
 		server.WithLimit(&limit.Option{MaxConnections: 2000, MaxQPS: 500}),
 		server.WithSuite(tracing.NewServerSuite()),
-		server.WithServerBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: g.GlobalServerConfig.Name}),
+		server.WithServerBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: g.ServerConfig.Name}),
 	)
 
 	err = svr.Run()

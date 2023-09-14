@@ -62,7 +62,7 @@ func Login(ctx context.Context, c *app.RequestContext) {
 func Registry(ctx context.Context, c *app.RequestContext) {
 	var err error
 	var req huser.RegistryReq
-	resp := new(kuser.RegistryResp)
+	resp := new(kuser.RegisterResp)
 	err = c.BindAndValidate(&req)
 	if err != nil {
 		c.String(http.StatusBadRequest, err.Error())
@@ -74,7 +74,7 @@ func Registry(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	res, err := g.UserClient.Registry(ctx, &kuser.RegistryReq{
+	res, err := g.UserClient.Register(ctx, &kuser.RegisterReq{
 		Username: req.Username,
 		Password: req.Password,
 	})

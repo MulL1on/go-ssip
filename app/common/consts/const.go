@@ -3,12 +3,14 @@ package consts
 const (
 	UserServiceName = "user"
 	MsgServiceName  = "msg"
+	HttpApiName     = "http"
+	WsApiName       = "ws"
 
 	FreePortAddress = "localhost:0"
 	TCP             = "tcp"
 
 	UserConfigPath    = "app/service/rpc/user/config.yaml"
-	HtppApiConfigPath = "app/service/api/http/config.yaml"
+	HttpApiConfigPath = "app/service/api/http/config.yaml"
 	WsApiConfigPath   = "app/service/api/ws/config.yaml"
 
 	ConsulCheckInterval                       = "7s"

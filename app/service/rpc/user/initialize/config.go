@@ -18,31 +18,31 @@ func InitConfig() {
 	if err := v.ReadInConfig(); err != nil {
 		g.Logger.Fatal("read config file failed", zap.Error(err))
 	}
-	if err := v.Unmarshal(&g.GlobalConsulConfig); err != nil {
+	if err := v.Unmarshal(&g.ConsulConfig); err != nil {
 		g.Logger.Fatal("unmarshal config file failed", zap.Error(err))
 	}
-	g.Logger.Info("read config file successfully", zap.Any("config", g.GlobalConsulConfig))
+	g.Logger.Info("read config file successfully", zap.Any("config", g.ConsulConfig))
 
 	cfg := api.DefaultConfig()
 	cfg.Address = net.JoinHostPort(
-		g.GlobalConsulConfig.Host,
-		strconv.Itoa(g.GlobalConsulConfig.Port))
+		g.ConsulConfig.Host,
+		strconv.Itoa(g.ConsulConfig.Port))
 	consulClient, err := api.NewClient(cfg)
 	if err != nil {
 		g.Logger.Fatal("create consul client failed", zap.Error(err))
 	}
-	content, _, err := consulClient.KV().Get(g.GlobalConsulConfig.Key, nil)
+	content, _, err := consulClient.KV().Get(g.ConsulConfig.Key, nil)
 	if err != nil {
 		g.Logger.Fatal("get config from consul failed", zap.Error(err))
 	}
-	err = sonic.Unmarshal(content.Value, &g.GlobalServerConfig)
+	err = sonic.Unmarshal(content.Value, &g.ServerConfig)
 	if err != nil {
 		g.Logger.Fatal("unmarshal config from consul failed", zap.Error(err))
 	}
-	g.Logger.Info("get config from consul successfully", zap.Any("config", g.GlobalServerConfig))
+	g.Logger.Info("get config from consul successfully", zap.Any("config", g.ServerConfig))
 
-	if g.GlobalServerConfig.Host == "" {
-		g.GlobalServerConfig.Host, err = tools.GetLocalIPv4Address()
+	if g.ServerConfig.Host == "" {
+		g.ServerConfig.Host, err = tools.GetLocalIPv4Address()
 		if err != nil {
 			g.Logger.Fatal("get local ip address failed", zap.Error(err))
 		}

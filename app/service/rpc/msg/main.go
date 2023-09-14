@@ -25,8 +25,8 @@ func main() {
 	initialize.InitRegistry(Port)
 	r, info := initialize.InitRegistry(Port)
 	p := provider.NewOpenTelemetryProvider(
-		provider.WithServiceName(g.GlobalServerConfig.Name),
-		provider.WithExportEndpoint(g.GlobalServerConfig.OtelInfo.EndPoint),
+		provider.WithServiceName(g.ServerConfig.Name),
+		provider.WithExportEndpoint(g.ServerConfig.OtelInfo.EndPoint),
 		provider.WithInsecure(),
 	)
 	defer p.Shutdown(context.Background())
@@ -38,7 +38,7 @@ func main() {
 		server.WithRegistryInfo(info),
 		server.WithLimit(&limit.Option{MaxConnections: 2000, MaxQPS: 500}),
 		server.WithSuite(tracing.NewServerSuite()),
-		server.WithServerBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: g.GlobalServerConfig.Name}),
+		server.WithServerBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: g.ServerConfig.Name}),
 	)
 
 	err := svr.Run()

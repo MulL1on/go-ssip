@@ -14,7 +14,7 @@ import (
 
 func InitConfig() {
 	v := viper.New()
-	v.SetConfigFile(consts.ApiConfigPath)
+	v.SetConfigFile(consts.HttpApiConfigPath)
 	if err := v.ReadInConfig(); err != nil {
 		g.Logger.Fatal("read config failed", zap.Error(err))
 	}
