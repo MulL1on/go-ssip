@@ -5,11 +5,10 @@ import (
 	"github.com/cloudwego/kitex/pkg/registry"
 	"github.com/cloudwego/kitex/pkg/utils"
 	"github.com/hashicorp/consul/api"
-	g "go-ssip/app/service/rpc/user/global"
-	"go.uber.org/zap"
-
 	consul "github.com/kitex-contrib/registry-consul"
 	"go-ssip/app/common/consts"
+	g "go-ssip/app/service/rpc/user/global"
+	"go.uber.org/zap"
 	"net"
 	"strconv"
 )
@@ -23,6 +22,7 @@ func InitRegistry(Port int) (registry.Registry, *registry.Info) {
 			Timeout:                        consts.ConsulCheckTimeout,
 			DeregisterCriticalServiceAfter: consts.ConsulCheckDeregisterCriticalServiceAfter,
 		}))
+
 	if err != nil {
 		g.Logger.Fatal("create consul register error", zap.Error(err))
 	}

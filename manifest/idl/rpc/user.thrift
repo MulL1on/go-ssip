@@ -2,12 +2,12 @@ namespace go user
 
 include "../base/common.thrift"
 
-struct registryRequest {
+struct RegisterReq {
     1: required string username,
     2: required string password,
 }
 
-struct registryResponse {
+struct RegisterResp {
     1: common.BaseResponse base_resp,
 }
 
@@ -17,7 +17,7 @@ struct AuthReq {
 }
 
 struct AuthResp {
-    1: common.BaseResponse base_resp,
+    1: common.BaseResponse base_resp
     2: required string token
 }
 
@@ -25,5 +25,5 @@ struct AuthResp {
 
 service UserService {
     AuthResp Auth(1:AuthReq req)
-    registryResponse registry(1: registryRequest req),
+    RegisterResp Register(1: RegisterReq req),
 }

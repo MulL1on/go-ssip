@@ -39,9 +39,9 @@ type MysqlManager interface {
 	GetUserByUsername(username string) (*mysql.User, error)
 }
 
-// Registry implements the UserServiceImpl interface.
-func (s *UserServiceImpl) Registry(ctx context.Context, req *user.RegistryRequest) (resp *user.RegistryResponse, err error) {
-	resp = new(user.RegistryResponse)
+// Register implements the UserServiceImpl interface.
+func (s *UserServiceImpl) Register(ctx context.Context, req *user.RegisterReq) (resp *user.RegisterResp, err error) {
+	resp = new(user.RegisterResp)
 	// 判断用户名是否已经存在
 	_, err = s.MysqlManager.GetUserByUsername(req.Username)
 	if err == nil {
@@ -97,6 +97,5 @@ func (s *UserServiceImpl) Auth(ctx context.Context, req *user.AuthReq) (resp *us
 		resp.BaseResp = tools.BuildBaseResp(errno.UserSrvErr)
 		return resp, nil
 	}
-
 	return resp, nil
 }
