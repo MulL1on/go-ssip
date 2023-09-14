@@ -1,0 +1,1 @@
+hz new -module go-ssip -idl ./../../../../manifest/idl/http/user.thrift  -force

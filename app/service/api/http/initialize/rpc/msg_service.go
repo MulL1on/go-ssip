@@ -13,7 +13,7 @@ import (
 	"go.uber.org/zap"
 )
 
-func initUser() {
+func initMsg() {
 	r, err := consul.NewConsulResolver(fmt.Sprintf("%s:%d",
 		g.ConsulConfig.Host,
 		g.ConsulConfig.Port))

@@ -18,8 +18,8 @@ func InitRegistry() (registry.Registry, *registry.Info) {
 	// build a consul client
 	cfg := api.DefaultConfig()
 	cfg.Address = net.JoinHostPort(
-		g.GlobalConsulConfig.Host,
-		strconv.Itoa(g.GlobalConsulConfig.Port))
+		g.ConsulConfig.Host,
+		strconv.Itoa(g.ConsulConfig.Port))
 	consulClient, err := api.NewClient(cfg)
 	if err != nil {
 		g.Logger.Fatal("init consul client failed:", zap.Error(err))
@@ -38,9 +38,9 @@ func InitRegistry() (registry.Registry, *registry.Info) {
 		g.Logger.Fatal("init snowflake failed:", zap.Error(err))
 	}
 	info := &registry.Info{
-		ServiceName: g.GlobalServerConfig.Name,
-		Addr: utils.NewNetAddr("tcp", net.JoinHostPort(g.GlobalServerConfig.Host,
-			strconv.Itoa(g.GlobalServerConfig.Port))),
+		ServiceName: g.ServerConfig.Name,
+		Addr: utils.NewNetAddr("tcp", net.JoinHostPort(g.ServerConfig.Host,
+			strconv.Itoa(g.ServerConfig.Port))),
 		Tags: map[string]string{
 			"ID": sf.Generate().Base36(),
 		},

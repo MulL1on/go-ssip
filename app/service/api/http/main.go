@@ -16,7 +16,7 @@ import (
 )
 
 func main() {
-	initialize.InitLogger("api")
+	initialize.InitLogger("api_http")
 	initialize.InitConfig()
 	r, info := initialize.InitRegistry()
 	tracer, trcCfg := hertztracing.NewServerTracer()
@@ -25,7 +25,7 @@ func main() {
 	h := server.New(
 		tracer,
 		server.WithALPN(true),
-		server.WithHostPorts(fmt.Sprintf(":%d", g.GlobalServerConfig.Port)),
+		server.WithHostPorts(fmt.Sprintf(":%d", g.ServerConfig.Port)),
 		server.WithRegistry(r, info),
 		server.WithHandleMethodNotAllowed(true),
 	)

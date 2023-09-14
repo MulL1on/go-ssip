@@ -1,16 +1,18 @@
 package global
 
 import (
+	"go-ssip/app/common/kitex_gen/msg/msgservice"
 	"go-ssip/app/common/kitex_gen/user/userservice"
 	"go-ssip/app/service/api/http/config"
 	"go.uber.org/zap"
 )
 
 var (
-	GlobalConsulConfig *config.ConsulConfig
-	GlobalServerConfig *config.ServerConfig
+	ConsulConfig *config.ConsulConfig
+	ServerConfig *config.ServerConfig
 
-	GlobalUserClient userservice.Client
+	UserClient userservice.Client
+	MsgClient  msgservice.Client
 
 	Logger *zap.Logger
 )

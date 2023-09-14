@@ -7,17 +7,17 @@ import (
 	"github.com/cloudwego/hertz/pkg/common/hlog"
 	"go-ssip/app/common/errno"
 	"go-ssip/app/common/tools"
-	g "go-ssip/app/service/api/http/global"
 	"net/http"
 
 	"github.com/cloudwego/hertz/pkg/app"
 	kuser "go-ssip/app/common/kitex_gen/user"
 	huser "go-ssip/app/service/api/http/biz/model/user"
+	g "go-ssip/app/service/api/http/global"
 )
 
-// Register .
-// @router /user/register [POST]
-func Register(ctx context.Context, c *app.RequestContext) {
+// Login .
+// @router /user/login [POST]
+func Login(ctx context.Context, c *app.RequestContext) {
 	var err error
 	var req huser.LoginReq
 	resp := new(kuser.AuthResp)
@@ -32,7 +32,7 @@ func Register(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	res, err := g.GlobalUserClient.Auth(ctx, &kuser.AuthReq{
+	res, err := g.UserClient.Auth(ctx, &kuser.AuthReq{
 		Username: req.Username,
 		Password: req.Password,
 	})
@@ -55,4 +55,37 @@ func Register(ctx context.Context, c *app.RequestContext) {
 	}
 
 	c.JSON(http.StatusOK, res)
+}
+
+// Registry .
+// @router /user/register [POST]
+func Registry(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req huser.RegistryReq
+	resp := new(kuser.RegistryResp)
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(http.StatusBadRequest, err.Error())
+		return
+	}
+	if req.Username == "" || req.Password == "" {
+		resp.BaseResp = tools.BuildBaseResp(errno.ParamsErr)
+		c.JSON(http.StatusBadRequest, resp)
+		return
+	}
+
+	res, err := g.UserClient.Registry(ctx, &kuser.RegistryReq{
+		Username: req.Username,
+		Password: req.Password,
+	})
+
+	if err != nil {
+		hlog.Error("rpc user service err", err)
+		resp.BaseResp = tools.BuildBaseResp(errno.ServiceErr)
+		c.JSON(http.StatusInternalServerError, resp)
+		return
+	}
+	resp.BaseResp = tools.BuildBaseResp(errno.Success)
+	c.JSON(http.StatusOK, res)
+
 }
