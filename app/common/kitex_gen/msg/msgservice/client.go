@@ -12,9 +12,7 @@ import (
 // Client is designed to provide IDL-compatible methods with call-option parameter for kitex framework.
 type Client interface {
 	SendMsg(ctx context.Context, req *msg.SendMsgReq, callOptions ...callopt.Option) (r *msg.SendMsgResp, err error)
-	SendGroupMsg(ctx context.Context, req *msg.SendGroupMsgReq, callOptions ...callopt.Option) (r *msg.SendGroupMsgResp, err error)
 	GetMsg(ctx context.Context, req *msg.GetMsgReq, callOptions ...callopt.Option) (r *msg.GetMsgResp, err error)
-	GetGroupMsg(ctx context.Context, req *msg.GetGroupMsgReq, callOptions ...callopt.Option) (r *msg.GetGroupMsgResp, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -51,17 +49,7 @@ func (p *kMsgServiceClient) SendMsg(ctx context.Context, req *msg.SendMsgReq, ca
 	return p.kClient.SendMsg(ctx, req)
 }
 
-func (p *kMsgServiceClient) SendGroupMsg(ctx context.Context, req *msg.SendGroupMsgReq, callOptions ...callopt.Option) (r *msg.SendGroupMsgResp, err error) {
-	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.SendGroupMsg(ctx, req)
-}
-
 func (p *kMsgServiceClient) GetMsg(ctx context.Context, req *msg.GetMsgReq, callOptions ...callopt.Option) (r *msg.GetMsgResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.GetMsg(ctx, req)
-}
-
-func (p *kMsgServiceClient) GetGroupMsg(ctx context.Context, req *msg.GetGroupMsgReq, callOptions ...callopt.Option) (r *msg.GetGroupMsgResp, err error) {
-	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.GetGroupMsg(ctx, req)
 }

@@ -1,9 +1,11 @@
 package main
 
 import (
-	"bytes"
+	"encoding/json"
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/hertz-contrib/websocket"
+	g "go-ssip/app/service/api/ws/global"
+	"go.uber.org/zap"
 	"log"
 	"time"
 )
@@ -36,15 +38,22 @@ func (c *Client) readPump() {
 	c.conn.SetReadDeadline(time.Now().Add(pongWait))
 	c.conn.SetPongHandler(func(string) error { c.conn.SetReadDeadline(time.Now().Add(pongWait)); return nil })
 	for {
-		_, message, err := c.conn.ReadMessage()
+		_, data, err := c.conn.ReadMessage()
 		if err != nil {
 			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
 				log.Printf("error: %v", err)
 			}
 			break
 		}
-		message = bytes.TrimSpace(bytes.Replace(message, newline, space, -1))
+
+		var m = &Message{}
+		err = json.Unmarshal(data, &m)
+		if err != nil {
+			g.Logger.Error("unmarshal message fail", zap.Error(err))
+			continue
+		}
 		// TODO: route to different rpc service
+		m.handle()
 	}
 }
 

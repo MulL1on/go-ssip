@@ -19,10 +19,8 @@ func NewServiceInfo() *kitex.ServiceInfo {
 	serviceName := "MsgService"
 	handlerType := (*msg.MsgService)(nil)
 	methods := map[string]kitex.MethodInfo{
-		"sendMsg":      kitex.NewMethodInfo(sendMsgHandler, newMsgServiceSendMsgArgs, newMsgServiceSendMsgResult, false),
-		"sendGroupMsg": kitex.NewMethodInfo(sendGroupMsgHandler, newMsgServiceSendGroupMsgArgs, newMsgServiceSendGroupMsgResult, false),
-		"getMsg":       kitex.NewMethodInfo(getMsgHandler, newMsgServiceGetMsgArgs, newMsgServiceGetMsgResult, false),
-		"getGroupMsg":  kitex.NewMethodInfo(getGroupMsgHandler, newMsgServiceGetGroupMsgArgs, newMsgServiceGetGroupMsgResult, false),
+		"sendMsg": kitex.NewMethodInfo(sendMsgHandler, newMsgServiceSendMsgArgs, newMsgServiceSendMsgResult, false),
+		"getMsg":  kitex.NewMethodInfo(getMsgHandler, newMsgServiceGetMsgArgs, newMsgServiceGetMsgResult, false),
 	}
 	extra := map[string]interface{}{
 		"PackageName":     "msg",
@@ -57,24 +55,6 @@ func newMsgServiceSendMsgResult() interface{} {
 	return msg.NewMsgServiceSendMsgResult()
 }
 
-func sendGroupMsgHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
-	realArg := arg.(*msg.MsgServiceSendGroupMsgArgs)
-	realResult := result.(*msg.MsgServiceSendGroupMsgResult)
-	success, err := handler.(msg.MsgService).SendGroupMsg(ctx, realArg.Req)
-	if err != nil {
-		return err
-	}
-	realResult.Success = success
-	return nil
-}
-func newMsgServiceSendGroupMsgArgs() interface{} {
-	return msg.NewMsgServiceSendGroupMsgArgs()
-}
-
-func newMsgServiceSendGroupMsgResult() interface{} {
-	return msg.NewMsgServiceSendGroupMsgResult()
-}
-
 func getMsgHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
 	realArg := arg.(*msg.MsgServiceGetMsgArgs)
 	realResult := result.(*msg.MsgServiceGetMsgResult)
@@ -91,24 +71,6 @@ func newMsgServiceGetMsgArgs() interface{} {
 
 func newMsgServiceGetMsgResult() interface{} {
 	return msg.NewMsgServiceGetMsgResult()
-}
-
-func getGroupMsgHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
-	realArg := arg.(*msg.MsgServiceGetGroupMsgArgs)
-	realResult := result.(*msg.MsgServiceGetGroupMsgResult)
-	success, err := handler.(msg.MsgService).GetGroupMsg(ctx, realArg.Req)
-	if err != nil {
-		return err
-	}
-	realResult.Success = success
-	return nil
-}
-func newMsgServiceGetGroupMsgArgs() interface{} {
-	return msg.NewMsgServiceGetGroupMsgArgs()
-}
-
-func newMsgServiceGetGroupMsgResult() interface{} {
-	return msg.NewMsgServiceGetGroupMsgResult()
 }
 
 type kClient struct {
@@ -131,31 +93,11 @@ func (p *kClient) SendMsg(ctx context.Context, req *msg.SendMsgReq) (r *msg.Send
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) SendGroupMsg(ctx context.Context, req *msg.SendGroupMsgReq) (r *msg.SendGroupMsgResp, err error) {
-	var _args msg.MsgServiceSendGroupMsgArgs
-	_args.Req = req
-	var _result msg.MsgServiceSendGroupMsgResult
-	if err = p.c.Call(ctx, "sendGroupMsg", &_args, &_result); err != nil {
-		return
-	}
-	return _result.GetSuccess(), nil
-}
-
 func (p *kClient) GetMsg(ctx context.Context, req *msg.GetMsgReq) (r *msg.GetMsgResp, err error) {
 	var _args msg.MsgServiceGetMsgArgs
 	_args.Req = req
 	var _result msg.MsgServiceGetMsgResult
 	if err = p.c.Call(ctx, "getMsg", &_args, &_result); err != nil {
-		return
-	}
-	return _result.GetSuccess(), nil
-}
-
-func (p *kClient) GetGroupMsg(ctx context.Context, req *msg.GetGroupMsgReq) (r *msg.GetGroupMsgResp, err error) {
-	var _args msg.MsgServiceGetGroupMsgArgs
-	_args.Req = req
-	var _result msg.MsgServiceGetGroupMsgResult
-	if err = p.c.Call(ctx, "getGroupMsg", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil
