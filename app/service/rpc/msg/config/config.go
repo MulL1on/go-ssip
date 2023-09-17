@@ -20,14 +20,16 @@ type OtelConfig struct {
 }
 
 type ServerConfig struct {
-	Name       string       `mapstructure:"name" json:"name"`
-	Host       string       `mapstructure:"host" json:"host"`
-	Port       int          `mapstructure:"port" json:"port"`
-	MysqlInfo  MysqlConfig  `mapstructure:"mysql" json:"mysql"`
-	OtelInfo   OtelConfig   `mapstructure:"otel" json:"otel"`
-	PasetoInfo PasetoConfig `mapstructure:"paseto" json:"paseto"`
-	JwtInfo    JwtConfig    `mapstructure:"jwt" json:"jwt"`
-	LoggerInfo LoggerConfig `mapstructure:"logger" json:"logger"`
+	Name         string         `mapstructure:"name" json:"name"`
+	Host         string         `mapstructure:"host" json:"host"`
+	Port         int            `mapstructure:"port" json:"port"`
+	MysqlInfo    MysqlConfig    `mapstructure:"mysql" json:"mysql"`
+	OtelInfo     OtelConfig     `mapstructure:"otel" json:"otel"`
+	PasetoInfo   PasetoConfig   `mapstructure:"paseto" json:"paseto"`
+	JwtInfo      JwtConfig      `mapstructure:"jwt" json:"jwt"`
+	LoggerInfo   LoggerConfig   `mapstructure:"logger" json:"logger"`
+	RedisInfo    RedisConfig    `mapstructure:"redis" json:"redis"`
+	RabbitMQInfo RabbitMQConfig `mapstructure:"rabbitmq" json:"rabbitmq"`
 }
 
 type PasetoConfig struct {
@@ -48,4 +50,19 @@ type LoggerConfig struct {
 	MaxBackups int    `mapstructure:"maxBackups" yaml:"maxBackups"`
 	IsCompress bool   `mapstructure:"isCompress" yaml:"isCompress"`
 	LogLevel   string `mapstructure:"logLevel" yaml:"logLevel"`
+}
+
+type RedisConfig struct {
+	Host     string `mapstructure:"host" json:"host"`
+	Port     int    `mapstructure:"port" json:"port"`
+	Username string `mapstructure:"username" json:"username"`
+	Password string `mapstructure:"password" json:"password"`
+	DB       int    `mapstructure:"db" json:"db"`
+}
+
+type RabbitMQConfig struct {
+	Host     string `mapstructure:"host" json:"host"`
+	Port     int    `mapstructure:"port" json:"port"`
+	Username string `mapstructure:"username" json:"username"`
+	Password string `mapstructure:"password" json:"password"`
 }

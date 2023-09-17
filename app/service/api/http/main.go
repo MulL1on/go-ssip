@@ -9,6 +9,7 @@ import (
 	"github.com/hertz-contrib/http2/factory"
 	hertztracing "github.com/hertz-contrib/obs-opentelemetry/tracing"
 	"github.com/hertz-contrib/pprof"
+	"go-ssip/app/common/consts"
 	g "go-ssip/app/service/api/http/global"
 	"go-ssip/app/service/api/http/initialize"
 	"go-ssip/app/service/api/http/initialize/rpc"
@@ -16,7 +17,7 @@ import (
 )
 
 func main() {
-	initialize.InitLogger("api_http")
+	initialize.InitLogger(consts.HttpApiName)
 	initialize.InitConfig()
 	r, info := initialize.InitRegistry()
 	tracer, trcCfg := hertztracing.NewServerTracer()

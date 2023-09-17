@@ -10,10 +10,10 @@ import (
 
 type Msg struct {
 	Type     int8   `thrift:"type,1" frugal:"1,default,i8" json:"type"`
-	FromUser int64  `thrift:"from_user,2" frugal:"2,default,i64" json:"from_user"`
-	ToUser   int64  `thrift:"to_user,3" frugal:"3,default,i64" json:"to_user"`
-	ToGroup  int64  `thrift:"to_group,4" frugal:"4,default,i64" json:"to_group"`
-	Content  string `thrift:"content,5" frugal:"5,default,string" json:"content"`
+	FromUser int64  `thrift:"from_user,3" frugal:"3,default,i64" json:"from_user"`
+	ToUser   int64  `thrift:"to_user,4" frugal:"4,default,i64" json:"to_user"`
+	ToGroup  int64  `thrift:"to_group,5" frugal:"5,default,i64" json:"to_group"`
+	Text     string `thrift:"text,6" frugal:"6,default,string" json:"text"`
 }
 
 func NewMsg() *Msg {
@@ -40,8 +40,8 @@ func (p *Msg) GetToGroup() (v int64) {
 	return p.ToGroup
 }
 
-func (p *Msg) GetContent() (v string) {
-	return p.Content
+func (p *Msg) GetText() (v string) {
+	return p.Text
 }
 func (p *Msg) SetType(val int8) {
 	p.Type = val
@@ -55,16 +55,16 @@ func (p *Msg) SetToUser(val int64) {
 func (p *Msg) SetToGroup(val int64) {
 	p.ToGroup = val
 }
-func (p *Msg) SetContent(val string) {
-	p.Content = val
+func (p *Msg) SetText(val string) {
+	p.Text = val
 }
 
 var fieldIDToName_Msg = map[int16]string{
 	1: "type",
-	2: "from_user",
-	3: "to_user",
-	4: "to_group",
-	5: "content",
+	3: "from_user",
+	4: "to_user",
+	5: "to_group",
+	6: "text",
 }
 
 func (p *Msg) Read(iprot thrift.TProtocol) (err error) {
@@ -96,16 +96,6 @@ func (p *Msg) Read(iprot thrift.TProtocol) (err error) {
 					goto SkipFieldError
 				}
 			}
-		case 2:
-			if fieldTypeId == thrift.I64 {
-				if err = p.ReadField2(iprot); err != nil {
-					goto ReadFieldError
-				}
-			} else {
-				if err = iprot.Skip(fieldTypeId); err != nil {
-					goto SkipFieldError
-				}
-			}
 		case 3:
 			if fieldTypeId == thrift.I64 {
 				if err = p.ReadField3(iprot); err != nil {
@@ -127,8 +117,18 @@ func (p *Msg) Read(iprot thrift.TProtocol) (err error) {
 				}
 			}
 		case 5:
-			if fieldTypeId == thrift.STRING {
+			if fieldTypeId == thrift.I64 {
 				if err = p.ReadField5(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		case 6:
+			if fieldTypeId == thrift.STRING {
+				if err = p.ReadField6(iprot); err != nil {
 					goto ReadFieldError
 				}
 			} else {
@@ -175,7 +175,7 @@ func (p *Msg) ReadField1(iprot thrift.TProtocol) error {
 	return nil
 }
 
-func (p *Msg) ReadField2(iprot thrift.TProtocol) error {
+func (p *Msg) ReadField3(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadI64(); err != nil {
 		return err
 	} else {
@@ -184,7 +184,7 @@ func (p *Msg) ReadField2(iprot thrift.TProtocol) error {
 	return nil
 }
 
-func (p *Msg) ReadField3(iprot thrift.TProtocol) error {
+func (p *Msg) ReadField4(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadI64(); err != nil {
 		return err
 	} else {
@@ -193,7 +193,7 @@ func (p *Msg) ReadField3(iprot thrift.TProtocol) error {
 	return nil
 }
 
-func (p *Msg) ReadField4(iprot thrift.TProtocol) error {
+func (p *Msg) ReadField5(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadI64(); err != nil {
 		return err
 	} else {
@@ -202,11 +202,11 @@ func (p *Msg) ReadField4(iprot thrift.TProtocol) error {
 	return nil
 }
 
-func (p *Msg) ReadField5(iprot thrift.TProtocol) error {
+func (p *Msg) ReadField6(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadString(); err != nil {
 		return err
 	} else {
-		p.Content = v
+		p.Text = v
 	}
 	return nil
 }
@@ -221,10 +221,6 @@ func (p *Msg) Write(oprot thrift.TProtocol) (err error) {
 			fieldId = 1
 			goto WriteFieldError
 		}
-		if err = p.writeField2(oprot); err != nil {
-			fieldId = 2
-			goto WriteFieldError
-		}
 		if err = p.writeField3(oprot); err != nil {
 			fieldId = 3
 			goto WriteFieldError
@@ -235,6 +231,10 @@ func (p *Msg) Write(oprot thrift.TProtocol) (err error) {
 		}
 		if err = p.writeField5(oprot); err != nil {
 			fieldId = 5
+			goto WriteFieldError
+		}
+		if err = p.writeField6(oprot); err != nil {
+			fieldId = 6
 			goto WriteFieldError
 		}
 
@@ -273,28 +273,11 @@ WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
 }
 
-func (p *Msg) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("from_user", thrift.I64, 2); err != nil {
+func (p *Msg) writeField3(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("from_user", thrift.I64, 3); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteI64(p.FromUser); err != nil {
-		return err
-	}
-	if err = oprot.WriteFieldEnd(); err != nil {
-		goto WriteFieldEndError
-	}
-	return nil
-WriteFieldBeginError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 2 begin error: ", p), err)
-WriteFieldEndError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 2 end error: ", p), err)
-}
-
-func (p *Msg) writeField3(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("to_user", thrift.I64, 3); err != nil {
-		goto WriteFieldBeginError
-	}
-	if err := oprot.WriteI64(p.ToUser); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {
@@ -308,10 +291,10 @@ WriteFieldEndError:
 }
 
 func (p *Msg) writeField4(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("to_group", thrift.I64, 4); err != nil {
+	if err = oprot.WriteFieldBegin("to_user", thrift.I64, 4); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteI64(p.ToGroup); err != nil {
+	if err := oprot.WriteI64(p.ToUser); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {
@@ -325,10 +308,10 @@ WriteFieldEndError:
 }
 
 func (p *Msg) writeField5(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("content", thrift.STRING, 5); err != nil {
+	if err = oprot.WriteFieldBegin("to_group", thrift.I64, 5); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteString(p.Content); err != nil {
+	if err := oprot.WriteI64(p.ToGroup); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {
@@ -339,6 +322,23 @@ WriteFieldBeginError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 5 begin error: ", p), err)
 WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 5 end error: ", p), err)
+}
+
+func (p *Msg) writeField6(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("text", thrift.STRING, 6); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteString(p.Text); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 6 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 6 end error: ", p), err)
 }
 
 func (p *Msg) String() string {
@@ -357,16 +357,16 @@ func (p *Msg) DeepEqual(ano *Msg) bool {
 	if !p.Field1DeepEqual(ano.Type) {
 		return false
 	}
-	if !p.Field2DeepEqual(ano.FromUser) {
+	if !p.Field3DeepEqual(ano.FromUser) {
 		return false
 	}
-	if !p.Field3DeepEqual(ano.ToUser) {
+	if !p.Field4DeepEqual(ano.ToUser) {
 		return false
 	}
-	if !p.Field4DeepEqual(ano.ToGroup) {
+	if !p.Field5DeepEqual(ano.ToGroup) {
 		return false
 	}
-	if !p.Field5DeepEqual(ano.Content) {
+	if !p.Field6DeepEqual(ano.Text) {
 		return false
 	}
 	return true
@@ -379,30 +379,30 @@ func (p *Msg) Field1DeepEqual(src int8) bool {
 	}
 	return true
 }
-func (p *Msg) Field2DeepEqual(src int64) bool {
+func (p *Msg) Field3DeepEqual(src int64) bool {
 
 	if p.FromUser != src {
 		return false
 	}
 	return true
 }
-func (p *Msg) Field3DeepEqual(src int64) bool {
+func (p *Msg) Field4DeepEqual(src int64) bool {
 
 	if p.ToUser != src {
 		return false
 	}
 	return true
 }
-func (p *Msg) Field4DeepEqual(src int64) bool {
+func (p *Msg) Field5DeepEqual(src int64) bool {
 
 	if p.ToGroup != src {
 		return false
 	}
 	return true
 }
-func (p *Msg) Field5DeepEqual(src string) bool {
+func (p *Msg) Field6DeepEqual(src string) bool {
 
-	if strings.Compare(p.Content, src) != 0 {
+	if strings.Compare(p.Text, src) != 0 {
 		return false
 	}
 	return true

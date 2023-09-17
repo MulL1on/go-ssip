@@ -12,6 +12,7 @@ import (
 	"go-ssip/app/common/kitex_gen/user/userservice"
 	g "go-ssip/app/service/rpc/user/global"
 	"go-ssip/app/service/rpc/user/initialize"
+	"go-ssip/app/service/rpc/user/pkg/consul"
 	"go-ssip/app/service/rpc/user/pkg/md5"
 	"go-ssip/app/service/rpc/user/pkg/mysql"
 	"go-ssip/app/service/rpc/user/pkg/paseto"
@@ -43,10 +44,11 @@ func main() {
 	}
 
 	svr := userservice.NewServer(&UserServiceImpl{
-		EncryptManager: &md5.EncryptManager{Salt: g.ServerConfig.MysqlInfo.Salt},
-		MysqlManager:   mysql.NewUserManager(db, g.ServerConfig.MysqlInfo.Salt),
-		IDGenerator:    uid.NewIDGenerator(),
-		TokenGenerator: tg,
+		EncryptManager:  &md5.EncryptManager{Salt: g.ServerConfig.MysqlInfo.Salt},
+		MysqlManager:    mysql.NewUserManager(db, g.ServerConfig.MysqlInfo.Salt),
+		IDGenerator:     uid.NewIDGenerator(),
+		TokenGenerator:  tg,
+		DiscoveryManger: consul.NewDiscoverManager(),
 	},
 
 		server.WithServiceAddr(utils.NewNetAddr("tcp", net.JoinHostPort(IP, strconv.Itoa(Port)))),

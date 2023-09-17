@@ -18,7 +18,7 @@ func InitLogger(serviceName string) {
 		zapcore.NewCore(
 			encoder,
 			zapcore.AddSync(&lumberjack.Logger{
-				Filename:   serviceName + ".log",
+				Filename:   "tmp/" + serviceName + ".log",
 				MaxSize:    5,
 				MaxAge:     400,
 				MaxBackups: 1000,
@@ -27,10 +27,11 @@ func InitLogger(serviceName string) {
 			}),
 			dynamicalLevel),
 	}
+	g.Logger = zap.New(zapcore.NewTee(cores[:]...), zap.AddCaller())
 	defer func(Logger *zap.Logger) {
 		_ = Logger.Sync()
 	}(g.Logger)
-	g.Logger = zap.New(zapcore.NewTee(cores[:]...), zap.AddCaller())
+	g.Logger.Info("init logger successfully")
 }
 
 func getEncoder() zapcore.Encoder {

@@ -8,8 +8,8 @@ import (
 	"github.com/kitex-contrib/obs-opentelemetry/provider"
 	"github.com/kitex-contrib/obs-opentelemetry/tracing"
 	consul "github.com/kitex-contrib/registry-consul"
-	"go-ssip/app/common/kitex_gen/user/userservice"
-	g "go-ssip/app/service/api/http/global"
+	"go-ssip/app/common/kitex_gen/msg/msgservice"
+	g "go-ssip/app/service/api/ws/global"
 	"go.uber.org/zap"
 )
 
@@ -22,21 +22,21 @@ func initMsg() {
 	}
 	//init OpenTelemetry
 	provider.NewOpenTelemetryProvider(
-		provider.WithServiceName(g.ServerConfig.UserSrvInfo.Name),
+		provider.WithServiceName(g.ServerConfig.MsgSrvInfo.Name),
 		provider.WithExportEndpoint(g.ServerConfig.OtelInfo.EndPoint),
 		provider.WithInsecure(),
 	)
 
-	c, err := userservice.NewClient(
-		g.ServerConfig.UserSrvInfo.Name,
+	c, err := msgservice.NewClient(
+		g.ServerConfig.MsgSrvInfo.Name,
 		client.WithResolver(r),
 		client.WithLoadBalancer(loadbalance.NewWeightedBalancer()),
 		client.WithMuxConnection(1),
 		client.WithSuite(tracing.NewClientSuite()))
-	client.WithClientBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: g.ServerConfig.UserSrvInfo.Name})
+	client.WithClientBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: g.ServerConfig.MsgSrvInfo.Name})
 	if err != nil {
 		g.Logger.Fatal("init user client failed:", zap.Error(err))
 	}
-	g.UserClient = c
+	g.MsgClient = c
 	g.Logger.Info("init user client success")
 }

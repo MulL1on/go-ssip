@@ -19,9 +19,8 @@ struct AuthReq {
 struct AuthResp {
     1: common.BaseResponse base_resp
     2: required string token
+    3: string addr
 }
-
-
 
 service UserService {
     AuthResp Auth(1:AuthReq req)

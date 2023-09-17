@@ -6,12 +6,12 @@ import (
 	"context"
 	"fmt"
 	"github.com/apache/thrift/lib/go/thrift"
-	"go-ssip/biz/model/base"
+	"go-ssip/app/service/api/http/biz/model/base"
 )
 
 type RegistryReq struct {
-	Username string `thrift:"username,1,required" form:"username,required" json:"username,required" query:"username,required" vd:"len($)>0 && lne($)<33"`
-	Password string `thrift:"password,2,required" form:"password,required" json:"password,required" query:"password,required" vd:"len($)>0 && lne($)<33"`
+	Username string `thrift:"username,1,required" form:"username,required" json:"username,required" query:"username,required" vd:"len($)>0 && len($)<33"`
+	Password string `thrift:"password,2,required" form:"password,required" json:"password,required" query:"password,required" vd:"len($)>0 && len($)<33"`
 }
 
 func NewRegistryReq() *RegistryReq {
@@ -208,8 +208,8 @@ func (p *RegistryReq) String() string {
 }
 
 type LoginReq struct {
-	Username string `thrift:"username,1,required" form:"username,required" json:"username,required" query:"username,required" vd:"len($)>0 && lne($)<33"`
-	Password string `thrift:"password,2,required" form:"password,required" json:"password,required" query:"password,required" vd:"len($)>0 && lne($)<33"`
+	Username string `thrift:"username,1,required" form:"username,required" json:"username,required" query:"username,required" vd:"len($)>0 && len($)<33"`
+	Password string `thrift:"password,2,required" form:"password,required" json:"password,required" query:"password,required" vd:"len($)>0 && len($)<33"`
 }
 
 func NewLoginReq() *LoginReq {

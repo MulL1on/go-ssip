@@ -53,7 +53,6 @@ func Login(ctx context.Context, c *app.RequestContext) {
 		c.JSON(http.StatusInternalServerError, err)
 		return
 	}
-
 	c.JSON(http.StatusOK, res)
 }
 

@@ -14,7 +14,6 @@ type ServerConfig struct {
 	OtelInfo    OtelConfig   `mapstructure:"otel" json:"otel"`
 	UserSrvInfo RPCSrvConfig `mapstructure:"user_srv" json:"user_srv"`
 	RedisInfo   RedisConfig  `mapstructure:"redis" json:"redis"`
-	JwtInfo     JwtConfig    `mapstructure:"jwt" json:"jwt"`
 }
 
 type RPCSrvConfig struct {
@@ -36,10 +35,4 @@ type RedisConfig struct {
 	Username string `mapstructure:"username" json:"username"`
 	Password string `mapstructure:"password" json:"password"`
 	DB       int    `mapstructure:"db" json:"db"`
-}
-
-type JwtConfig struct {
-	SecretKey   string `mapstructure:"secretKey" yaml:"secretKey"`
-	ExpiresTime int64  `mapstructure:"expiresTime" yaml:"expiresTime"`
-	Issuer      string `mapstructure:"issuer" yaml:"issuer"`
 }

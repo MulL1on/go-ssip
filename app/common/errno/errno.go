@@ -44,6 +44,8 @@ var (
 	ServiceErr         = NewErrNo(int64(errno.Err_ServiceErr), "service error")
 	RPCUserSrvErr      = NewErrNo(int64(errno.Err_RPCUserSrvErr), "rpc user service error")
 	UserSrvErr         = NewErrNo(int64(errno.Err_UserSrvErr), "user service error")
+	RPCMsgSrvErr       = NewErrNo(int64(errno.Err_RPCUserSrvErr), "rpc user service error")
+	MsgSrvErr          = NewErrNo(int64(errno.Err_UserSrvErr), "user service error")
 	RecordNotFound     = NewErrNo(int64(errno.Err_RecordNotFound), "record not found")
 	RecordAlreadyExist = NewErrNo(int64(errno.Err_RecordAlreadyExist), "record already exist")
 	DirtyData          = NewErrNo(int64(errno.Err_DirtyData), "dirty data")

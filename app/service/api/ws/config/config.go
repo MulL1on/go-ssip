@@ -16,19 +16,14 @@ type ServerConfig struct {
 	Port       int          `mapstructure:"port" json:"port"`
 	OtelInfo   OtelConfig   `mapstructure:"otel" json:"otel"`
 	PasetoInfo PasetoConfig `mapstructure:"paseto" json:"paseto"`
-	JwtInfo    JwtConfig    `mapstructure:"jwt" json:"jwt"`
 	LoggerInfo LoggerConfig `mapstructure:"logger" json:"logger"`
+	RedisInfo  RedisConfig  `mapstructure:"redis" json:"redis"`
+	MsgSrvInfo RPCSrvConfig `mapstructure:"msg_srv" json:"msg_srv"`
 }
 
 type PasetoConfig struct {
 	SecretKey string `mapstructure:"secret_key" json:"secret_key"`
 	Implicit  string `mapstructure:"implicit" json:"implicit"`
-}
-
-type JwtConfig struct {
-	SecretKey   string `mapstructure:"secretKey" yaml:"secretKey"`
-	ExpiresTime int64  `mapstructure:"expiresTime" yaml:"expiresTime"`
-	Issuer      string `mapstructure:"issuer" yaml:"issuer"`
 }
 
 type LoggerConfig struct {
@@ -38,4 +33,16 @@ type LoggerConfig struct {
 	MaxBackups int    `mapstructure:"maxBackups" yaml:"maxBackups"`
 	IsCompress bool   `mapstructure:"isCompress" yaml:"isCompress"`
 	LogLevel   string `mapstructure:"logLevel" yaml:"logLevel"`
+}
+
+type RedisConfig struct {
+	Host     string `mapstructure:"host" json:"host"`
+	Port     int    `mapstructure:"port" json:"port"`
+	Username string `mapstructure:"username" json:"username"`
+	Password string `mapstructure:"password" json:"password"`
+	DB       int    `mapstructure:"db" json:"db"`
+}
+
+type RPCSrvConfig struct {
+	Name string `mapstructure:"name" json:"name"`
 }

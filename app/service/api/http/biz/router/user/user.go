@@ -4,7 +4,7 @@ package user
 
 import (
 	"github.com/cloudwego/hertz/pkg/app/server"
-	user "go-ssip/biz/handler/user"
+	user "go-ssip/app/service/api/http/biz/handler/user"
 )
 
 /*

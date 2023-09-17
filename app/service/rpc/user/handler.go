@@ -2,13 +2,14 @@ package main
 
 import (
 	"context"
-	"github.com/cloudwego/kitex/pkg/klog"
 	"github.com/hertz-contrib/paseto"
 	"go-ssip/app/common/consts"
 	"go-ssip/app/common/errno"
 	"go-ssip/app/common/kitex_gen/user"
 	"go-ssip/app/common/tools"
+	g "go-ssip/app/service/rpc/user/global"
 	"go-ssip/app/service/rpc/user/pkg/mysql"
+	"go.uber.org/zap"
 	"strconv"
 	"time"
 )
@@ -19,6 +20,7 @@ type UserServiceImpl struct {
 	MysqlManager
 	IDGenerator
 	EncryptManager
+	DiscoveryManger
 }
 
 type IDGenerator interface {
@@ -31,6 +33,10 @@ type EncryptManager interface {
 
 type TokenGenerator interface {
 	CreateToken(claims *paseto.StandardClaims) (token string, err error)
+}
+
+type DiscoveryManger interface {
+	GetWsServer() (string, error)
 }
 
 type MysqlManager interface {
@@ -56,7 +62,7 @@ func (s *UserServiceImpl) Register(ctx context.Context, req *user.RegisterReq) (
 		Password: s.EncryptManager.EncryptPassword(req.Password),
 	})
 	if err != nil {
-		klog.Error("create user error", err.Error())
+		g.Logger.Error("create user error", zap.Error(err))
 		resp.BaseResp = tools.BuildBaseResp(errno.UserSrvErr)
 		return resp, nil
 	}
@@ -73,7 +79,7 @@ func (s *UserServiceImpl) Auth(ctx context.Context, req *user.AuthReq) (resp *us
 			resp.BaseResp = tools.BuildBaseResp(errno.RecordNotFound)
 			return resp, nil
 		}
-		klog.Error("get user error", err.Error())
+		g.Logger.Error("get user error", zap.Error(err))
 		resp.BaseResp = tools.BuildBaseResp(errno.UserSrvErr)
 		return resp, nil
 	}
@@ -93,9 +99,17 @@ func (s *UserServiceImpl) Auth(ctx context.Context, req *user.AuthReq) (resp *us
 	})
 
 	if err != nil {
-		klog.Error("create token error", err.Error())
+		g.Logger.Error("create token error", zap.Error(err))
 		resp.BaseResp = tools.BuildBaseResp(errno.UserSrvErr)
 		return resp, nil
 	}
+
+	resp.Addr, err = s.DiscoveryManger.GetWsServer()
+	if err != nil {
+		g.Logger.Error("get ws server from consul error", zap.Error(err))
+		resp.BaseResp = tools.BuildBaseResp(errno.UserSrvErr)
+		return resp, nil
+	}
+
 	return resp, nil
 }

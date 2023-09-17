@@ -1,9 +1,12 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/hertz-contrib/websocket"
+	"github.com/spf13/cast"
+	"go-ssip/app/common/kitex_gen/msg"
 	g "go-ssip/app/service/api/ws/global"
 	"go.uber.org/zap"
 	"log"
@@ -11,10 +14,10 @@ import (
 )
 
 type Client struct {
-	userid int64
-	hub    *Hub
-	conn   *websocket.Conn
-	send   chan []byte
+	id   int64
+	hub  *Hub
+	conn *websocket.Conn
+	send chan []byte
 }
 
 const (
@@ -46,14 +49,18 @@ func (c *Client) readPump() {
 			break
 		}
 
-		var m = &Message{}
-		err = json.Unmarshal(data, &m)
+		var req = &msg.SendMsgReq{}
+
+		err = json.Unmarshal(data, &req.Msg)
 		if err != nil {
 			g.Logger.Error("unmarshal message fail", zap.Error(err))
 			continue
 		}
 		// TODO: route to different rpc service
-		m.handle()
+		_, err = g.MsgClient.SendMsg(context.Background(), req)
+		if err != nil {
+			g.Logger.Error("msg rpc send msg error", zap.Error(err))
+		}
 	}
 }
 
@@ -97,15 +104,20 @@ func (c *Client) writePump() {
 	}
 }
 
-func serveWs(ctx *app.RequestContext) {
-	err := upgrader.Upgrade(ctx, func(conn *websocket.Conn) {
-		client := &Client{conn: conn, send: make(chan []byte, 256)}
-		hub.register <- client
+func serveWs(_ context.Context, c *app.RequestContext) {
+	id, ok := c.Get("ID")
+	if !ok {
+		g.Logger.Error("get id in context error")
+		return
+	}
 
+	err := upgrader.Upgrade(c, func(conn *websocket.Conn) {
+		client := &Client{id: cast.ToInt64(id), conn: conn, send: make(chan []byte, 256)}
+		hub.register <- client
 		go client.writePump()
 		client.readPump()
 	})
 	if err != nil {
-		log.Println(err)
+		g.Logger.Error("upgrade error", zap.Error(err))
 	}
 }

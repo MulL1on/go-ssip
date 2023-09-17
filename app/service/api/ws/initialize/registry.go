@@ -14,7 +14,7 @@ import (
 )
 
 // InitRegistry to init consul
-func InitRegistry(Port int) (registry.Registry, *registry.Info) {
+func InitRegistry() (registry.Registry, *registry.Info) {
 	// build a consul client
 	cfg := api.DefaultConfig()
 	cfg.Address = net.JoinHostPort(
@@ -40,7 +40,7 @@ func InitRegistry(Port int) (registry.Registry, *registry.Info) {
 	info := &registry.Info{
 		ServiceName: g.ServerConfig.Name,
 		Addr: utils.NewNetAddr("tcp", net.JoinHostPort(g.ServerConfig.Host,
-			strconv.Itoa(Port))),
+			strconv.Itoa(g.ServerConfig.Port))),
 		Tags: map[string]string{
 			"ID": sf.Generate().Base36(),
 		},
