@@ -8,14 +8,12 @@ type ConsulConfig struct {
 
 type ServerConfig struct {
 	Name         string         `mapstructure:"name" json:"name"`
-	Host         string         `mapstructure:"host" json:"host"`
-	Port         int            `mapstructure:"port" json:"port"`
 	OtelInfo     OtelConfig     `mapstructure:"otel" json:"otel"`
 	RabbitMQInfo RabbitMQConfig `mapstructure:"rabbitmq" json:"rabbitmq"`
 	MysqlInfo    MysqlConfig    `mapstructure:"mysql" json:"mysql"`
 	MongoDBInfo  MongoDBConfig  `mapstructure:"mongodb" json:"mongodb"`
-	LoggerInfo   LoggerConfig   `mapstructure:"logger" json:"logger"`
 	RedisInfo    RedisConfig    `mapstructure:"redis" json:"redis"`
+	LoggerInfo   LoggerConfig   `mapstructure:"logger" json:"logger"`
 }
 
 type OtelConfig struct {

@@ -3,8 +3,8 @@ package initialize
 import (
 	"fmt"
 	"go-ssip/app/common/consts"
-	g "go-ssip/app/service/mq/trans/global"
-	model "go-ssip/app/service/mq/trans/pkg/db"
+	g "go-ssip/app/service/mq/pull/global"
+	"go-ssip/app/service/mq/pull/model"
 	"go.uber.org/zap"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -23,5 +23,6 @@ func InitDB() *gorm.DB {
 		g.Logger.Fatal("connect mysql error", zap.Error(err))
 	}
 	db.AutoMigrate(&model.Msg{})
+	g.Logger.Info("init mysql successfully")
 	return db
 }

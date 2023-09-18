@@ -6,7 +6,7 @@ const (
 	HttpApiName     = "http_api"
 	WsApiName       = "ws_api"
 	TransMqName     = "trans_mq"
-	PushMqName      = "push_mq"
+	PullMqName      = "pull_mq"
 
 	FreePortAddress = "localhost:0"
 	TCP             = "tcp"
@@ -16,6 +16,7 @@ const (
 	HttpApiConfigPath = "app/service/api/http/config.yaml"
 	WsApiConfigPath   = "app/service/api/ws/config.yaml"
 	TransMqConfigPath = "app/service/mq/trans/config.yaml"
+	PullMqConfigPath  = "app/service/mq/pull/config.yaml"
 
 	ConsulCheckInterval                       = "7s"
 	ConsulCheckTimeout                        = "5s"

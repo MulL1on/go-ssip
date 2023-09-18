@@ -45,6 +45,12 @@ func (s *PullMqImpl) Run(prs <-chan amqp.Delivery) {
 		}
 
 		// TODO push to push
-
+		msgs, err := s.DbManager.GetMessages(p.UserID)
+		if err != nil || len(msgs) == 0 {
+			continue
+		}
+		for _, m := range msgs {
+			s.MqManager.PushToPush(&m, st)
+		}
 	}
 }

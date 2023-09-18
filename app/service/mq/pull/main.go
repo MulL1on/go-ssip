@@ -5,12 +5,13 @@ import (
 	g "go-ssip/app/service/mq/pull/global"
 	"go-ssip/app/service/mq/pull/initialize"
 	"go-ssip/app/service/mq/pull/pkg/db"
+	"go-ssip/app/service/mq/pull/pkg/mq"
 	"go-ssip/app/service/mq/pull/pkg/rdb"
 	"go.uber.org/zap"
 )
 
 func main() {
-	initialize.InitLogger(consts.TransMqName)
+	initialize.InitLogger(consts.PullMqName)
 	initialize.InitConfig()
 	mysqlclient := initialize.InitDB()
 	mongodbclient := initialize.InitMdb()
@@ -54,6 +55,7 @@ func main() {
 	handler := &PullMqImpl{
 		DbManager:    db.NewMsgManager(mysqlclient, mongodbclient),
 		RedisManager: rdb.NewRedisManager(redisclient),
+		MqManager:    mq.NewMsgManager(ch),
 	}
 
 	handler.Run(prs)

@@ -11,6 +11,7 @@ import (
 
 func InitRdb() *redis.Client {
 	cfg := g.ServerConfig.RedisInfo
+	g.Logger.Info("redis config", zap.Any("config", cfg))
 	rdb := redis.NewClient(&redis.Options{
 		Addr:     fmt.Sprintf("%s:%d", cfg.Host, cfg.Port),
 		Username: cfg.Username,

@@ -5,7 +5,6 @@ import (
 	"github.com/hashicorp/consul/api"
 	"github.com/spf13/viper"
 	"go-ssip/app/common/consts"
-	"go-ssip/app/common/tools"
 	g "go-ssip/app/service/mq/pull/global"
 	"go.uber.org/zap"
 	"net"
@@ -14,7 +13,7 @@ import (
 
 func InitConfig() {
 	v := viper.New()
-	v.SetConfigFile(consts.TransMqConfigPath)
+	v.SetConfigFile(consts.PullMqConfigPath)
 	if err := v.ReadInConfig(); err != nil {
 		g.Logger.Fatal("read config file failed", zap.Error(err))
 	}
@@ -40,11 +39,4 @@ func InitConfig() {
 		g.Logger.Fatal("unmarshal config from consul failed", zap.Error(err))
 	}
 	g.Logger.Info("get config from consul successfully", zap.Any("config", g.ServerConfig))
-
-	if g.ServerConfig.Host == "" {
-		g.ServerConfig.Host, err = tools.GetLocalIPv4Address()
-		if err != nil {
-			g.Logger.Fatal("get local ip address failed", zap.Error(err))
-		}
-	}
 }

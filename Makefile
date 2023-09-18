@@ -23,3 +23,7 @@ trans:
 	@echo "running mq transfer"
 	@go run ./app/service/mq/trans &
 
+.PHONY: pull
+pull:
+	@echo "running mq pull"
+	@go run ./app/service/mq/pull &
