@@ -1,5 +1,5 @@
 package mysql
 
-func getGroupMembers(g int64) {
+func GetGroupMembers(g int64) {
 
 }

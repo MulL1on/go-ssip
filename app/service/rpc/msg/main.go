@@ -25,6 +25,7 @@ func main() {
 	initialize.InitRdb()
 	conn := initialize.InitMq()
 	ch, err := conn.Channel()
+	defer conn.Close()
 	if err != nil {
 		g.Logger.Fatal("init channel error", zap.Error(err))
 	}
@@ -38,6 +39,7 @@ func main() {
 	if err != nil {
 		g.Logger.Fatal("declare queue error", zap.Error(err))
 	}
+
 	g.MqChan = ch
 
 	p := provider.NewOpenTelemetryProvider(

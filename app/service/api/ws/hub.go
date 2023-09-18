@@ -2,8 +2,10 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"github.com/spf13/cast"
+	"github.com/streadway/amqp"
 	g "go-ssip/app/service/api/ws/global"
 	"go.uber.org/zap"
 	"net"
@@ -11,21 +13,27 @@ import (
 	"sync"
 )
 
-var hub = newHub()
-
 type Hub struct {
 	clients     map[int64]*Client
 	clientsLock sync.RWMutex
+	delivery    <-chan amqp.Delivery
 
 	register   chan *Client
 	unregister chan *Client
 }
 
-func newHub() *Hub {
+type Msg struct {
+	UserID  int64  `json:"user_id"`
+	Seq     int    `json:"seq"`
+	Content []byte `json:"content"`
+}
+
+func newHub(delivery <-chan amqp.Delivery) *Hub {
 	return &Hub{
 		register:   make(chan *Client),
 		unregister: make(chan *Client),
 		clients:    make(map[int64]*Client),
+		delivery:   delivery,
 	}
 }
 
@@ -36,6 +44,8 @@ func (h *Hub) run() {
 			h.Register(client)
 		case client := <-h.unregister:
 			h.Unregister(client)
+		case delivery := <-h.delivery:
+			h.Push(delivery)
 		}
 	}
 }
@@ -72,4 +82,20 @@ func (h *Hub) Unregister(client *Client) {
 		delete(h.clients, client.id)
 		close(client.send)
 	}
+}
+
+func (h *Hub) Push(d amqp.Delivery) {
+	var m = &Msg{}
+	err := json.Unmarshal(d.Body, m)
+	if err != nil {
+		g.Logger.Error("unmarshal delivery error", zap.Error(err), zap.ByteString("body", d.Body))
+		return
+	}
+	for _, c := range h.clients {
+		if c.id == m.UserID {
+			c.send <- m.Content
+			return
+		}
+	}
+	g.Logger.Error("no such user on this server")
 }

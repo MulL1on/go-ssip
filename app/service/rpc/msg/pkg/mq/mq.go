@@ -12,7 +12,7 @@ type Msg struct {
 	Content []byte `gorm:"column:content" json:"content"`
 }
 
-func PushToMq(m *Msg) error {
+func PushToTransfer(m *Msg) error {
 	data, err := json.Marshal(m)
 	if err != nil {
 		return err
@@ -20,6 +20,23 @@ func PushToMq(m *Msg) error {
 	err = g.MqChan.Publish(
 		"",
 		"trans",
+		false,
+		false,
+		amqp.Publishing{
+			ContentType: "text/plain",
+			Body:        data,
+		})
+	return nil
+}
+
+func PushToPush(m *Msg, st string) error {
+	data, err := json.Marshal(m)
+	if err != nil {
+		return err
+	}
+	err = g.MqChan.Publish(
+		"",
+		st,
 		false,
 		false,
 		amqp.Publishing{

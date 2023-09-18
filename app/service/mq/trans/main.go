@@ -59,11 +59,10 @@ func main() {
 	}
 
 	for d := range msgs {
-		g.Logger.Info("get msg")
 		var m = &db.Msg{}
 		err = json.Unmarshal(d.Body, m)
 		if err != nil {
-			g.Logger.Error("unmarshal  msg error", zap.Error(err))
+			g.Logger.Error("unmarshal msg error", zap.Error(err))
 			continue
 		}
 		mm.Save(context.Background(), m)

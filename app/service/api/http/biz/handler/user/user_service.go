@@ -4,9 +4,9 @@ package user
 
 import (
 	"context"
-	"github.com/cloudwego/hertz/pkg/common/hlog"
 	"go-ssip/app/common/errno"
 	"go-ssip/app/common/tools"
+	"go.uber.org/zap"
 	"net/http"
 
 	"github.com/cloudwego/hertz/pkg/app"
@@ -37,7 +37,7 @@ func Login(ctx context.Context, c *app.RequestContext) {
 		Password: req.Password,
 	})
 	if err != nil {
-		hlog.Error("rpc user service err", err)
+		g.Logger.Error("rpc user service err", zap.Error(err))
 		resp.BaseResp = tools.BuildBaseResp(errno.ServiceErr)
 		c.JSON(http.StatusInternalServerError, resp)
 		return
@@ -79,7 +79,7 @@ func Registry(ctx context.Context, c *app.RequestContext) {
 	})
 
 	if err != nil {
-		hlog.Error("rpc user service err", err)
+		g.Logger.Error("rpc user service err", zap.Error(err))
 		resp.BaseResp = tools.BuildBaseResp(errno.ServiceErr)
 		c.JSON(http.StatusInternalServerError, resp)
 		return

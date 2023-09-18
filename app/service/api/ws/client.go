@@ -56,7 +56,10 @@ func (c *Client) readPump() {
 			g.Logger.Error("unmarshal message fail", zap.Error(err))
 			continue
 		}
-		// TODO: route to different rpc service
+
+		// set from user id
+		req.Msg.FromUser = c.id
+
 		_, err = g.MsgClient.SendMsg(context.Background(), req)
 		if err != nil {
 			g.Logger.Error("msg rpc send msg error", zap.Error(err))
@@ -86,12 +89,6 @@ func (c *Client) writePump() {
 			}
 			w.Write(message)
 
-			n := len(c.send)
-
-			for i := 0; i < n; i++ {
-				w.Write(newline)
-				w.Write(<-c.send)
-			}
 			if err = w.Close(); err != nil {
 				return
 			}

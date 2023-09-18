@@ -7,22 +7,6 @@ import (
 	g "go-ssip/app/service/rpc/msg/global"
 )
 
-func UpdateMaxSeq(ctx context.Context, u int64) error {
-	ok, _ := g.Rdb.HExists(ctx, "seq", cast.ToString(u)).Result()
-	if !ok {
-		err := g.Rdb.HSet(ctx, "seq", u, 1).Err()
-		if err != nil {
-			return err
-		}
-	} else {
-		err := g.Rdb.HIncrBy(ctx, "seq", cast.ToString(u), 1).Err()
-		if err != nil {
-			return err
-		}
-	}
-	return nil
-}
-
 func GetAndUpdateSeq(ctx context.Context, u int64) (int, error) {
 	//get lock
 	locker := tools.NewLocker(g.Rdb)
@@ -46,4 +30,16 @@ func GetAndUpdateSeq(ctx context.Context, u int64) (int, error) {
 	l.Unlock(ctx)
 
 	return cast.ToInt(res), nil
+}
+
+func GetUserStatus(ctx context.Context, u int64) (string, error) {
+	//exist, err := g.Rdb.Exists(ctx, cast.ToString(u)).Result()
+	//if err != nil {
+	//	return "", err
+	//}
+	//if exist == 1 {
+	//	return "", nil
+	//}
+	res, err := g.Rdb.Get(ctx, cast.ToString(u)).Result()
+	return res, err
 }
