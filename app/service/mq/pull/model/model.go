@@ -1,12 +1,4 @@
-package mysql
-
-import (
-	"gorm.io/gorm"
-)
-
-type MsgManager struct {
-	db *gorm.DB
-}
+package model
 
 type Msg struct {
 	ID      int64  `gorm:"column:id;primary_key" json:"id"`
@@ -15,10 +7,6 @@ type Msg struct {
 	Content []byte `gorm:"content:seq" json:"content"`
 }
 
-func NewMsgManager(db *gorm.DB) *MsgManager {
-	return &MsgManager{db: db}
-}
-
-func (mm *MsgManager) GetGroupMembers(g int64) {
-
+type Pr struct {
+	UserID int64 `json:"user_id"`
 }

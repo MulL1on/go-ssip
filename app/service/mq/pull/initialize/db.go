@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"go-ssip/app/common/consts"
 	g "go-ssip/app/service/mq/trans/global"
-	"go-ssip/app/service/mq/trans/model"
+	model "go-ssip/app/service/mq/trans/pkg/db"
 	"go.uber.org/zap"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"

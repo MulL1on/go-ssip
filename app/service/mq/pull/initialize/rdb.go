@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/go-redis/redis/v8"
-	g "go-ssip/app/service/rpc/msg/global"
+	g "go-ssip/app/service/mq/pull/global"
 	"go.uber.org/zap"
 	"time"
 )

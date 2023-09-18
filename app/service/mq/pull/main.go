@@ -2,9 +2,10 @@ package main
 
 import (
 	"go-ssip/app/common/consts"
-	g "go-ssip/app/service/mq/trans/global"
-	"go-ssip/app/service/mq/trans/initialize"
-	"go-ssip/app/service/mq/trans/pkg/db"
+	g "go-ssip/app/service/mq/pull/global"
+	"go-ssip/app/service/mq/pull/initialize"
+	"go-ssip/app/service/mq/pull/pkg/db"
+	"go-ssip/app/service/mq/pull/pkg/rdb"
 	"go.uber.org/zap"
 )
 
@@ -14,6 +15,7 @@ func main() {
 	mysqlclient := initialize.InitDB()
 	mongodbclient := initialize.InitMdb()
 	conn := initialize.InitMq()
+	redisclient := initialize.InitRdb()
 	defer conn.Close()
 
 	// 创建一个通道
@@ -25,7 +27,7 @@ func main() {
 
 	// 声明一个队列
 	queue, err := ch.QueueDeclare(
-		"trans",
+		"pull",
 		false,
 		false,
 		false,
@@ -36,7 +38,7 @@ func main() {
 		g.Logger.Fatal("declare a queue failed", zap.Error(err))
 	}
 
-	msgs, err := ch.Consume(
+	prs, err := ch.Consume(
 		queue.Name,
 		"",
 		true,
@@ -49,8 +51,11 @@ func main() {
 		g.Logger.Fatal("consume msg failed", zap.Error(err))
 	}
 
-	svr := &PushMqImpl{
-		DbManager: db.NewMsgManager(mysqlclient, mongodbclient),
+	handler := &PullMqImpl{
+		DbManager:    db.NewMsgManager(mysqlclient, mongodbclient),
+		RedisManager: rdb.NewRedisManager(redisclient),
 	}
-	svr.Run(msgs)
+
+	handler.Run(prs)
+
 }

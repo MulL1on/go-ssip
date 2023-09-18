@@ -12,6 +12,9 @@ import (
 	"go-ssip/app/common/kitex_gen/msg/msgservice"
 	g "go-ssip/app/service/rpc/msg/global"
 	"go-ssip/app/service/rpc/msg/initialize"
+	"go-ssip/app/service/rpc/msg/pkg/mq"
+	"go-ssip/app/service/rpc/msg/pkg/mysql"
+	"go-ssip/app/service/rpc/msg/pkg/rdb"
 	"go.uber.org/zap"
 	"net"
 	"strconv"
@@ -22,7 +25,8 @@ func main() {
 	initialize.InitConfig()
 	IP, Port := initialize.InitFlag()
 	r, info := initialize.InitRegistry(Port)
-	initialize.InitRdb()
+	redisclient := initialize.InitRdb()
+	mysqlclient := initialize.InitDB()
 	conn := initialize.InitMq()
 	ch, err := conn.Channel()
 	defer conn.Close()
@@ -40,8 +44,6 @@ func main() {
 		g.Logger.Fatal("declare queue error", zap.Error(err))
 	}
 
-	g.MqChan = ch
-
 	p := provider.NewOpenTelemetryProvider(
 		provider.WithServiceName(g.ServerConfig.Name),
 		provider.WithExportEndpoint(g.ServerConfig.OtelInfo.EndPoint),
@@ -49,7 +51,11 @@ func main() {
 	)
 	defer p.Shutdown(context.Background())
 
-	svr := msgservice.NewServer(&MsgServiceImpl{},
+	svr := msgservice.NewServer(&MsgServiceImpl{
+		MysqlManager: mysql.NewMsgManager(mysqlclient),
+		RedisManager: rdb.NewRedisManager(redisclient),
+		MqManager:    mq.NewMsgManager(ch),
+	},
 
 		server.WithServiceAddr(utils.NewNetAddr("tcp", net.JoinHostPort(IP, strconv.Itoa(Port)))),
 		server.WithRegistry(r),

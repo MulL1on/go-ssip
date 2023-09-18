@@ -3,21 +3,25 @@ package mq
 import (
 	"encoding/json"
 	"github.com/streadway/amqp"
-	g "go-ssip/app/service/rpc/msg/global"
+	"go-ssip/app/service/rpc/msg/model"
 )
 
-type Msg struct {
-	UserID  int64  `gorm:"column:user_id;primary_key" json:"user_id"`
-	Seq     int    `gorm:"column:seq;primary_key" json:"seq"`
-	Content []byte `gorm:"column:content" json:"content"`
+type MsgManager struct {
+	ch *amqp.Channel
 }
 
-func PushToTransfer(m *Msg) error {
+func NewMsgManager(ch *amqp.Channel) *MsgManager {
+	return &MsgManager{
+		ch: ch,
+	}
+}
+
+func (mm *MsgManager) PushToTransfer(m *model.Msg) error {
 	data, err := json.Marshal(m)
 	if err != nil {
 		return err
 	}
-	err = g.MqChan.Publish(
+	err = mm.ch.Publish(
 		"",
 		"trans",
 		false,
@@ -29,12 +33,12 @@ func PushToTransfer(m *Msg) error {
 	return nil
 }
 
-func PushToPush(m *Msg, st string) error {
+func (mm *MsgManager) PushToPush(m *model.Msg, st string) error {
 	data, err := json.Marshal(m)
 	if err != nil {
 		return err
 	}
-	err = g.MqChan.Publish(
+	err = mm.ch.Publish(
 		"",
 		st,
 		false,

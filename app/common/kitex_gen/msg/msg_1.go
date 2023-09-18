@@ -518,8 +518,7 @@ func (p *GetMsgReq) Field1DeepEqual(src int64) bool {
 }
 
 type GetMsgResp struct {
-	Msgs     []*Msg             `thrift:"msgs,1" frugal:"1,default,list<Msg>" json:"msgs"`
-	BaseResp *base.BaseResponse `thrift:"base_resp,2" frugal:"2,default,base.BaseResponse" json:"base_resp"`
+	BaseResp *base.BaseResponse `thrift:"base_resp,1" frugal:"1,default,base.BaseResponse" json:"base_resp"`
 }
 
 func NewGetMsgResp() *GetMsgResp {
@@ -530,10 +529,6 @@ func (p *GetMsgResp) InitDefault() {
 	*p = GetMsgResp{}
 }
 
-func (p *GetMsgResp) GetMsgs() (v []*Msg) {
-	return p.Msgs
-}
-
 var GetMsgResp_BaseResp_DEFAULT *base.BaseResponse
 
 func (p *GetMsgResp) GetBaseResp() (v *base.BaseResponse) {
@@ -542,16 +537,12 @@ func (p *GetMsgResp) GetBaseResp() (v *base.BaseResponse) {
 	}
 	return p.BaseResp
 }
-func (p *GetMsgResp) SetMsgs(val []*Msg) {
-	p.Msgs = val
-}
 func (p *GetMsgResp) SetBaseResp(val *base.BaseResponse) {
 	p.BaseResp = val
 }
 
 var fieldIDToName_GetMsgResp = map[int16]string{
-	1: "msgs",
-	2: "base_resp",
+	1: "base_resp",
 }
 
 func (p *GetMsgResp) IsSetBaseResp() bool {
@@ -578,18 +569,8 @@ func (p *GetMsgResp) Read(iprot thrift.TProtocol) (err error) {
 
 		switch fieldId {
 		case 1:
-			if fieldTypeId == thrift.LIST {
-				if err = p.ReadField1(iprot); err != nil {
-					goto ReadFieldError
-				}
-			} else {
-				if err = iprot.Skip(fieldTypeId); err != nil {
-					goto SkipFieldError
-				}
-			}
-		case 2:
 			if fieldTypeId == thrift.STRUCT {
-				if err = p.ReadField2(iprot); err != nil {
+				if err = p.ReadField1(iprot); err != nil {
 					goto ReadFieldError
 				}
 			} else {
@@ -628,26 +609,6 @@ ReadStructEndError:
 }
 
 func (p *GetMsgResp) ReadField1(iprot thrift.TProtocol) error {
-	_, size, err := iprot.ReadListBegin()
-	if err != nil {
-		return err
-	}
-	p.Msgs = make([]*Msg, 0, size)
-	for i := 0; i < size; i++ {
-		_elem := NewMsg()
-		if err := _elem.Read(iprot); err != nil {
-			return err
-		}
-
-		p.Msgs = append(p.Msgs, _elem)
-	}
-	if err := iprot.ReadListEnd(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (p *GetMsgResp) ReadField2(iprot thrift.TProtocol) error {
 	p.BaseResp = base.NewBaseResponse()
 	if err := p.BaseResp.Read(iprot); err != nil {
 		return err
@@ -663,10 +624,6 @@ func (p *GetMsgResp) Write(oprot thrift.TProtocol) (err error) {
 	if p != nil {
 		if err = p.writeField1(oprot); err != nil {
 			fieldId = 1
-			goto WriteFieldError
-		}
-		if err = p.writeField2(oprot); err != nil {
-			fieldId = 2
 			goto WriteFieldError
 		}
 
@@ -689,32 +646,7 @@ WriteStructEndError:
 }
 
 func (p *GetMsgResp) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("msgs", thrift.LIST, 1); err != nil {
-		goto WriteFieldBeginError
-	}
-	if err := oprot.WriteListBegin(thrift.STRUCT, len(p.Msgs)); err != nil {
-		return err
-	}
-	for _, v := range p.Msgs {
-		if err := v.Write(oprot); err != nil {
-			return err
-		}
-	}
-	if err := oprot.WriteListEnd(); err != nil {
-		return err
-	}
-	if err = oprot.WriteFieldEnd(); err != nil {
-		goto WriteFieldEndError
-	}
-	return nil
-WriteFieldBeginError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
-WriteFieldEndError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
-}
-
-func (p *GetMsgResp) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("base_resp", thrift.STRUCT, 2); err != nil {
+	if err = oprot.WriteFieldBegin("base_resp", thrift.STRUCT, 1); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := p.BaseResp.Write(oprot); err != nil {
@@ -725,9 +657,9 @@ func (p *GetMsgResp) writeField2(oprot thrift.TProtocol) (err error) {
 	}
 	return nil
 WriteFieldBeginError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 2 begin error: ", p), err)
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
 WriteFieldEndError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 2 end error: ", p), err)
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
 }
 
 func (p *GetMsgResp) String() string {
@@ -743,29 +675,13 @@ func (p *GetMsgResp) DeepEqual(ano *GetMsgResp) bool {
 	} else if p == nil || ano == nil {
 		return false
 	}
-	if !p.Field1DeepEqual(ano.Msgs) {
-		return false
-	}
-	if !p.Field2DeepEqual(ano.BaseResp) {
+	if !p.Field1DeepEqual(ano.BaseResp) {
 		return false
 	}
 	return true
 }
 
-func (p *GetMsgResp) Field1DeepEqual(src []*Msg) bool {
-
-	if len(p.Msgs) != len(src) {
-		return false
-	}
-	for i, v := range p.Msgs {
-		_src := src[i]
-		if !v.DeepEqual(_src) {
-			return false
-		}
-	}
-	return true
-}
-func (p *GetMsgResp) Field2DeepEqual(src *base.BaseResponse) bool {
+func (p *GetMsgResp) Field1DeepEqual(src *base.BaseResponse) bool {
 
 	if !p.BaseResp.DeepEqual(src) {
 		return false

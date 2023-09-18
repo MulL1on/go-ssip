@@ -16,11 +16,8 @@ struct GetMsgReq {
 }
 
 struct GetMsgResp {
-    1: list<msg.Msg> msgs
-    2: common.BaseResponse base_resp
+    1: common.BaseResponse base_resp
 }
-
-
 
 service MsgService {
     SendMsgResp sendMsg (1: SendMsgReq req)
