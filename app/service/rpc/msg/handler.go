@@ -25,7 +25,7 @@ type MysqlManager interface {
 
 type RedisManager interface {
 	GetUserStatus(ctx context.Context, u int64) (string, error)
-	GetAndUpdateSeq(ctx context.Context, u int64) (int, error)
+	GetAndUpdateSeq(ctx context.Context, u int64) (int64, error)
 }
 
 type MqManager interface {
@@ -43,68 +43,29 @@ func (s *MsgServiceImpl) SendMsg(ctx context.Context, req *msg.SendMsgReq) (resp
 			resp.BaseResp = tools.BuildBaseResp(errno.MsgSrvErr)
 			return resp, nil
 		}
-		fus, err := s.RedisManager.GetAndUpdateSeq(ctx, fu)
-		tus, err := s.RedisManager.GetAndUpdateSeq(ctx, tu)
-		m, err := json.Marshal(req.Msg)
+
+		tum, err := s.buildMsg(ctx, tu, req.Msg)
 		if err != nil {
-			g.Logger.Error("marshal msg error", zap.Error(err))
+			g.Logger.Error("build tu message error")
 			resp.BaseResp = tools.BuildBaseResp(errno.MsgSrvErr)
-			return resp, nil
-		}
-		var fum = &model.Msg{
-			UserID:  fu,
-			Seq:     fus,
-			Content: m,
-		}
-		var tum = &model.Msg{
-			UserID:  tu,
-			Seq:     tus,
-			Content: m,
-		}
-		err = s.MqManager.PushToTransfer(fum)
-		if err != nil {
-			g.Logger.Error("push message to trans error", zap.Error(err))
-			resp.BaseResp = tools.BuildBaseResp(errno.MsgSrvErr)
-			return resp, nil
-		}
-		err = s.MqManager.PushToTransfer(tum)
-		if err != nil {
-			g.Logger.Error("push message to trans error", zap.Error(err))
-			resp.BaseResp = tools.BuildBaseResp(errno.MsgSrvErr)
-			return resp, nil
-		}
-		st, err := s.RedisManager.GetUserStatus(ctx, tu)
-		if err != nil {
-			if err == redis.Nil {
-				g.Logger.Info("tu st not found")
-				return resp, nil
-			}
-			g.Logger.Error("get tu status error", zap.Error(err))
-			resp.BaseResp = tools.BuildBaseResp(errno.MsgSrvErr)
-			return resp, nil
-		}
-		err = s.MqManager.PushToPush(tum, st)
-		if err != nil {
-			g.Logger.Error("push message to push error", zap.Error(err))
-			resp.BaseResp = tools.BuildBaseResp(errno.MsgSrvErr)
-			return resp, nil
 		}
 
-		st, err = s.RedisManager.GetUserStatus(ctx, fu)
+		fum, err := s.buildMsg(ctx, fu, req.Msg)
 		if err != nil {
-			if err == redis.Nil {
-				g.Logger.Info("fu st not found")
-				return resp, nil
-			}
-			g.Logger.Error("get fu status error", zap.Error(err))
+			g.Logger.Error("build fu message error")
 			resp.BaseResp = tools.BuildBaseResp(errno.MsgSrvErr)
-			return resp, nil
 		}
-		err = s.MqManager.PushToPush(fum, st)
+
+		err = s.pushMsg(ctx, tu, tum)
 		if err != nil {
-			g.Logger.Error("push message to push error", zap.Error(err))
+			g.Logger.Error("push tu message error")
 			resp.BaseResp = tools.BuildBaseResp(errno.MsgSrvErr)
-			return resp, nil
+		}
+
+		err = s.pushMsg(ctx, fu, fum)
+		if err != nil {
+			g.Logger.Error("push fu message error")
+			resp.BaseResp = tools.BuildBaseResp(errno.MsgSrvErr)
 		}
 
 	case 1:
@@ -118,4 +79,51 @@ func (s *MsgServiceImpl) SendMsg(ctx context.Context, req *msg.SendMsgReq) (resp
 func (s *MsgServiceImpl) GetMsg(ctx context.Context, req *msg.GetMsgReq) (resp *msg.GetMsgResp, err error) {
 
 	return
+}
+
+func (s *MsgServiceImpl) buildMsg(ctx context.Context, u int64, msg *msg.Msg) (*model.Msg, error) {
+	us, err := s.RedisManager.GetAndUpdateSeq(ctx, u)
+	if err != nil {
+		if err == redis.Nil {
+			g.Logger.Info("get and update seq error", zap.Int64("user_id", u), zap.Error(err))
+			return nil, err
+		}
+	}
+	msg.Seq = us
+	content, err := json.Marshal(msg)
+	if err != nil {
+		g.Logger.Info("marshal msg error", zap.Error(err))
+		return nil, err
+	}
+
+	var m = &model.Msg{
+		UserID:  u,
+		Seq:     us,
+		Content: content,
+	}
+
+	return m, nil
+}
+
+func (s *MsgServiceImpl) pushMsg(ctx context.Context, u int64, m *model.Msg) error {
+	err := s.MqManager.PushToTransfer(m)
+	if err != nil {
+		g.Logger.Error("push message to trans error", zap.Error(err))
+		return err
+	}
+	st, err := s.RedisManager.GetUserStatus(ctx, u)
+	if err != nil {
+		if err == redis.Nil {
+			g.Logger.Info("tu st not found")
+			return nil
+		}
+		g.Logger.Error("get tu status error", zap.Error(err))
+		return err
+	}
+	err = s.MqManager.PushToPush(m, st)
+	if err != nil {
+		g.Logger.Error("push message to push error", zap.Error(err))
+		return err
+	}
+	return nil
 }

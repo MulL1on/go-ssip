@@ -24,7 +24,7 @@ type Hub struct {
 
 type Msg struct {
 	UserID  int64  `json:"user_id"`
-	Seq     int    `json:"seq"`
+	Seq     int64  `json:"seq"`
 	Content []byte `json:"content"`
 }
 

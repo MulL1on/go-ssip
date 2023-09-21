@@ -6,6 +6,7 @@ struct Msg {
     4: i64 to_user
     5: i64 to_group
     6: string text
+    7: i64 seq
 }
 
 struct  GroupMsg{

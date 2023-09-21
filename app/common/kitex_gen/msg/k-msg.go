@@ -115,6 +115,20 @@ func (p *Msg) FastRead(buf []byte) (int, error) {
 					goto SkipFieldError
 				}
 			}
+		case 7:
+			if fieldTypeId == thrift.I64 {
+				l, err = p.FastReadField7(buf[offset:])
+				offset += l
+				if err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				l, err = bthrift.Binary.Skip(buf[offset:], fieldTypeId)
+				offset += l
+				if err != nil {
+					goto SkipFieldError
+				}
+			}
 		default:
 			l, err = bthrift.Binary.Skip(buf[offset:], fieldTypeId)
 			offset += l
@@ -220,6 +234,20 @@ func (p *Msg) FastReadField6(buf []byte) (int, error) {
 	return offset, nil
 }
 
+func (p *Msg) FastReadField7(buf []byte) (int, error) {
+	offset := 0
+
+	if v, l, err := bthrift.Binary.ReadI64(buf[offset:]); err != nil {
+		return offset, err
+	} else {
+		offset += l
+
+		p.Seq = v
+
+	}
+	return offset, nil
+}
+
 // for compatibility
 func (p *Msg) FastWrite(buf []byte) int {
 	return 0
@@ -233,6 +261,7 @@ func (p *Msg) FastWriteNocopy(buf []byte, binaryWriter bthrift.BinaryWriter) int
 		offset += p.fastWriteField3(buf[offset:], binaryWriter)
 		offset += p.fastWriteField4(buf[offset:], binaryWriter)
 		offset += p.fastWriteField5(buf[offset:], binaryWriter)
+		offset += p.fastWriteField7(buf[offset:], binaryWriter)
 		offset += p.fastWriteField6(buf[offset:], binaryWriter)
 	}
 	offset += bthrift.Binary.WriteFieldStop(buf[offset:])
@@ -249,6 +278,7 @@ func (p *Msg) BLength() int {
 		l += p.field4Length()
 		l += p.field5Length()
 		l += p.field6Length()
+		l += p.field7Length()
 	}
 	l += bthrift.Binary.FieldStopLength()
 	l += bthrift.Binary.StructEndLength()
@@ -300,6 +330,15 @@ func (p *Msg) fastWriteField6(buf []byte, binaryWriter bthrift.BinaryWriter) int
 	return offset
 }
 
+func (p *Msg) fastWriteField7(buf []byte, binaryWriter bthrift.BinaryWriter) int {
+	offset := 0
+	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "seq", thrift.I64, 7)
+	offset += bthrift.Binary.WriteI64(buf[offset:], p.Seq)
+
+	offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
+	return offset
+}
+
 func (p *Msg) field1Length() int {
 	l := 0
 	l += bthrift.Binary.FieldBeginLength("type", thrift.BYTE, 1)
@@ -340,6 +379,15 @@ func (p *Msg) field6Length() int {
 	l := 0
 	l += bthrift.Binary.FieldBeginLength("text", thrift.STRING, 6)
 	l += bthrift.Binary.StringLengthNocopy(p.Text)
+
+	l += bthrift.Binary.FieldEndLength()
+	return l
+}
+
+func (p *Msg) field7Length() int {
+	l := 0
+	l += bthrift.Binary.FieldBeginLength("seq", thrift.I64, 7)
+	l += bthrift.Binary.I64Length(p.Seq)
 
 	l += bthrift.Binary.FieldEndLength()
 	return l

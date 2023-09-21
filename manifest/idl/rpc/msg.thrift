@@ -13,6 +13,7 @@ struct SendMsgResp {
 
 struct GetMsgReq {
     1: i64 user
+    2: i64 seq
 }
 
 struct GetMsgResp {

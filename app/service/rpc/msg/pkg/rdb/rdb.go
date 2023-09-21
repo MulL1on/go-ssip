@@ -22,7 +22,7 @@ func (rm *RedisManager) GetUserStatus(ctx context.Context, u int64) (string, err
 	return res, err
 }
 
-func (rm *RedisManager) GetAndUpdateSeq(ctx context.Context, u int64) (int, error) {
+func (rm *RedisManager) GetAndUpdateSeq(ctx context.Context, u int64) (int64, error) {
 	//get lock
 	locker := tools.NewLocker(rm.rdb)
 	l := locker.GetLock("u")
@@ -44,5 +44,5 @@ func (rm *RedisManager) GetAndUpdateSeq(ctx context.Context, u int64) (int, erro
 	}
 	l.Unlock(ctx)
 
-	return cast.ToInt(res), nil
+	return cast.ToInt64(res), nil
 }
