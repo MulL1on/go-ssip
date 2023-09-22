@@ -49,6 +49,11 @@ func main() {
 		c.Abort()
 	}
 	hub = newHub(consumer.Messages(), topic)
+	defer func() {
+		for _, c := range hub.clients {
+			hub.unregister <- c
+		}
+	}()
 	go hub.run()
 
 	h := server.New(
