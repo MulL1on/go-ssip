@@ -30,6 +30,7 @@ type ServerConfig struct {
 	LoggerInfo   LoggerConfig   `mapstructure:"logger" json:"logger"`
 	RedisInfo    RedisConfig    `mapstructure:"redis" json:"redis"`
 	RabbitMQInfo RabbitMQConfig `mapstructure:"rabbitmq" json:"rabbitmq"`
+	KafkaInfo    KafkaConfig    `mapstructure:"kafka" json:"kafka"`
 }
 
 type PasetoConfig struct {
@@ -65,4 +66,10 @@ type RabbitMQConfig struct {
 	Port     int    `mapstructure:"port" json:"port"`
 	Username string `mapstructure:"username" json:"username"`
 	Password string `mapstructure:"password" json:"password"`
+}
+
+type KafkaConfig struct {
+	Host    string `mapstructure:"host" json:"host"`
+	Port    int    `mapstructure:"port" json:"port"`
+	Timeout int    `mapstructure:"timeout" json:"timeout"`
 }

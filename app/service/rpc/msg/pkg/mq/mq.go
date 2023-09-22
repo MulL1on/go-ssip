@@ -2,17 +2,18 @@ package mq
 
 import (
 	"encoding/json"
-	"github.com/streadway/amqp"
+	"github.com/IBM/sarama"
+	"github.com/spf13/cast"
 	"go-ssip/app/service/rpc/msg/model"
 )
 
 type MsgManager struct {
-	ch *amqp.Channel
+	producer sarama.SyncProducer
 }
 
-func NewMsgManager(ch *amqp.Channel) *MsgManager {
+func NewMsgManager(producer sarama.SyncProducer) *MsgManager {
 	return &MsgManager{
-		ch: ch,
+		producer: producer,
 	}
 }
 
@@ -21,15 +22,15 @@ func (mm *MsgManager) PushToTransfer(m *model.Msg) error {
 	if err != nil {
 		return err
 	}
-	err = mm.ch.Publish(
-		"",
-		"trans",
-		false,
-		false,
-		amqp.Publishing{
-			ContentType: "text/plain",
-			Body:        data,
-		})
+	msg := &sarama.ProducerMessage{
+		Topic: "trans",
+		Value: sarama.ByteEncoder(data),
+		Key:   sarama.StringEncoder(cast.ToString(m.UserID)),
+	}
+	_, _, err = mm.producer.SendMessage(msg)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -38,14 +39,14 @@ func (mm *MsgManager) PushToPush(m *model.Msg, st string) error {
 	if err != nil {
 		return err
 	}
-	err = mm.ch.Publish(
-		"",
-		st,
-		false,
-		false,
-		amqp.Publishing{
-			ContentType: "text/plain",
-			Body:        data,
-		})
+	msg := &sarama.ProducerMessage{
+		Topic: "push",
+		Value: sarama.ByteEncoder(data),
+		Key:   sarama.StringEncoder(st),
+	}
+	_, _, err = mm.producer.SendMessage(msg)
+	if err != nil {
+		return err
+	}
 	return nil
 }

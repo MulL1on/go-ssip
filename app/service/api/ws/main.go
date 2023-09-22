@@ -16,10 +16,7 @@ import (
 	g "go-ssip/app/service/api/ws/global"
 	"go-ssip/app/service/api/ws/initialize"
 	"go-ssip/app/service/api/ws/initialize/rpc"
-	"go.uber.org/zap"
-	"net"
 	"net/http"
-	"strconv"
 )
 
 var hub *Hub
@@ -35,42 +32,8 @@ func main() {
 	r, info := initialize.InitRegistry()
 	tracer, trcCfg := hertztracing.NewServerTracer()
 	rpc.Init()
-	conn := initialize.InitMq()
-	defer conn.Close()
-
-	// 创建一个通道
-	ch, err := conn.Channel()
-	if err != nil {
-		g.Logger.Fatal("declare a channel failed", zap.Error(err))
-	}
-	defer ch.Close()
-
-	// 声明一个队列
-	queue, err := ch.QueueDeclare(
-		net.JoinHostPort(g.ServerConfig.Host, strconv.Itoa(g.ServerConfig.Port)),
-		false,
-		false,
-		false,
-		false,
-		nil,
-	)
-	if err != nil {
-		g.Logger.Fatal("declare a queue failed", zap.Error(err))
-	}
-
-	msgs, err := ch.Consume(
-		queue.Name,
-		"",
-		true,
-		false,
-		false,
-		false,
-		nil,
-	)
-
-	if err != nil {
-		g.Logger.Fatal("consume msg failed", zap.Error(err))
-	}
+	consumer := initialize.InitMq()
+	defer consumer.Close()
 
 	sh := func(ctx context.Context, c *app.RequestContext, token *gpaseto.Token) {
 		id, err := token.GetString("id")
@@ -85,7 +48,7 @@ func main() {
 		c.JSON(http.StatusUnauthorized, tools.BuildBaseResp(errno.BadRequest.WithMessage("invalid token")))
 		c.Abort()
 	}
-	hub = newHub(msgs)
+	hub = newHub(consumer.Messages())
 	go hub.run()
 
 	h := server.New(

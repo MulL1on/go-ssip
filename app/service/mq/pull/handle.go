@@ -3,8 +3,8 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"github.com/IBM/sarama"
 	"github.com/go-redis/redis/v8"
-	"github.com/streadway/amqp"
 	g "go-ssip/app/service/mq/pull/global"
 	"go-ssip/app/service/mq/pull/model"
 	"go.uber.org/zap"
@@ -28,10 +28,10 @@ type MqManager interface {
 	PushToPush(m *model.Msg, st string) error
 }
 
-func (s *PullMqImpl) Run(prs <-chan amqp.Delivery) {
+func (s *PullMqImpl) Run(prs <-chan *sarama.ConsumerMessage) {
 	for d := range prs {
 		var p = &model.Pr{}
-		err := json.Unmarshal(d.Body, p)
+		err := json.Unmarshal(d.Value, p)
 		if err != nil {
 			g.Logger.Error("unmarshal msg error", zap.Error(err))
 			continue

@@ -4,7 +4,8 @@ services:
   mysql:
     image:  mysql:latest
     volumes:
-      - ./data/configs/sql:/docker-entrypoint-initdb.d
+      - ./_data/configs/sql:/docker-entrypoint-initdb.d
+      - ./_data/data/mysql:/var/lib/mysql
     ports:
       - "3306:3306"
     environment:
@@ -20,8 +21,8 @@ services:
     environment:
       TZ: Asia/Shanghai
     volumes:
-      - ./data/data/redis:/data
-      - ./data/logs/redis:/logs
+      - ./_data/data/redis:/data
+      - ./_data/logs/redis:/logs
     command: redis-server --requirepass 123456
 
   #Consul
@@ -29,7 +30,7 @@ services:
     image: hashicorp/consul:latest
     command:   agent -server -bootstrap-expect=1 -ui -client=0.0.0.0
     volumes:
-      - ./consul/data:/consul/data
+      - ./_consul/data:/consul/data
     ports:
       - "8500:8500"
       - "8300:8300"
@@ -37,15 +38,15 @@ services:
       - "8302:8302"
       - "8600:8600/udp"
 
-  #RabbitMQ
-  rabbitmq:
-    image: rabbitmq:management
-    ports:
-      - "15672:15672"
-      - "5672:5672"
-    environment:
-      - RABBITMQ_DEFAULT_USER=guest
-      - RABBITMQ_DEFAULT_PASS=guest
+#  #RabbitMQ
+#  rabbitmq:
+#    image: rabbitmq:management
+#    ports:
+#      - "15672:15672"
+#      - "5672:5672"
+#    environment:
+#      - RABBITMQ_DEFAULT_USER=guest
+#      - RABBITMQ_DEFAULT_PASS=guest
 
   #Collector
   otel-collector:
@@ -114,11 +115,40 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - /data/db:/data/db
+      - /_data/db:/data/db
     environment:
       - MONGO_INITDB_DATABASE=go-ssip
       - MONGO_INITDB_ROOT_USERNAME=liangweijian
       - MONGO_INITDB_ROOT_PASSWORD=123456
+
+
+  # Zookeeper
+  zookeeper:
+    image: wurstmeister/zookeeper:latest
+    container_name: "zookeeper"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+    ports:
+      - "2181:2181"
+
+
+  # Kafka
+  kafka:
+    image: wurstmeister/kafka:latest
+    container_name: "kafka"
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://127.0.0.1:9092
+      ALLOW_PLAINTEXT_LISTENER: yes
+    ports:
+      - "9092:9092"
+
+
 
 
 

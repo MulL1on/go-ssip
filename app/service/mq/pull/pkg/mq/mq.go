@@ -2,17 +2,17 @@ package mq
 
 import (
 	"encoding/json"
-	"github.com/streadway/amqp"
+	"github.com/IBM/sarama"
 	"go-ssip/app/service/mq/pull/model"
 )
 
 type MsgManager struct {
-	ch *amqp.Channel
+	producer sarama.SyncProducer
 }
 
-func NewMsgManager(ch *amqp.Channel) *MsgManager {
+func NewMsgManager(producer sarama.SyncProducer) *MsgManager {
 	return &MsgManager{
-		ch: ch,
+		producer: producer,
 	}
 }
 
@@ -21,14 +21,16 @@ func (mm *MsgManager) PushToPush(m *model.Msg, st string) error {
 	if err != nil {
 		return err
 	}
-	err = mm.ch.Publish(
-		"",
-		st,
-		false,
-		false,
-		amqp.Publishing{
-			ContentType: "text/plain",
-			Body:        data,
-		})
+	var msg = &sarama.ProducerMessage{
+		Topic: "push",
+		Key:   sarama.StringEncoder(st),
+		Value: sarama.ByteEncoder(data),
+	}
+
+	_, _, err = mm.producer.SendMessage(msg)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }

@@ -27,22 +27,8 @@ func main() {
 	r, info := initialize.InitRegistry(Port)
 	redisclient := initialize.InitRdb()
 	mysqlclient := initialize.InitDB()
-	conn := initialize.InitMq()
-	ch, err := conn.Channel()
-	defer conn.Close()
-	if err != nil {
-		g.Logger.Fatal("init channel error", zap.Error(err))
-	}
-	_, err = ch.QueueDeclare(
-		"trans",
-		false,
-		false,
-		false,
-		false,
-		nil)
-	if err != nil {
-		g.Logger.Fatal("declare queue error", zap.Error(err))
-	}
+	producer := initialize.InitMq()
+	defer producer.Close()
 
 	p := provider.NewOpenTelemetryProvider(
 		provider.WithServiceName(g.ServerConfig.Name),
@@ -54,7 +40,7 @@ func main() {
 	svr := msgservice.NewServer(&MsgServiceImpl{
 		MysqlManager: mysql.NewMsgManager(mysqlclient),
 		RedisManager: rdb.NewRedisManager(redisclient),
-		MqManager:    mq.NewMsgManager(ch),
+		MqManager:    mq.NewMsgManager(producer),
 	},
 
 		server.WithServiceAddr(utils.NewNetAddr("tcp", net.JoinHostPort(IP, strconv.Itoa(Port)))),
@@ -65,7 +51,7 @@ func main() {
 		server.WithServerBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: g.ServerConfig.Name}),
 	)
 
-	err = svr.Run()
+	err := svr.Run()
 	if err != nil {
 		g.Logger.Info("run error", zap.Error(err))
 	}

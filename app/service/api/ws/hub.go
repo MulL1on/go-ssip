@@ -4,8 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/IBM/sarama"
 	"github.com/spf13/cast"
-	"github.com/streadway/amqp"
 	g "go-ssip/app/service/api/ws/global"
 	"go.uber.org/zap"
 	"net"
@@ -16,7 +16,7 @@ import (
 type Hub struct {
 	clients     map[int64]*Client
 	clientsLock sync.RWMutex
-	delivery    <-chan amqp.Delivery
+	delivery    <-chan *sarama.ConsumerMessage
 
 	register   chan *Client
 	unregister chan *Client
@@ -28,7 +28,7 @@ type Msg struct {
 	Content []byte `json:"content"`
 }
 
-func newHub(delivery <-chan amqp.Delivery) *Hub {
+func newHub(delivery <-chan *sarama.ConsumerMessage) *Hub {
 	return &Hub{
 		register:   make(chan *Client),
 		unregister: make(chan *Client),
@@ -84,11 +84,11 @@ func (h *Hub) Unregister(client *Client) {
 	}
 }
 
-func (h *Hub) Push(d amqp.Delivery) {
+func (h *Hub) Push(d *sarama.ConsumerMessage) {
 	var m = &Msg{}
-	err := json.Unmarshal(d.Body, m)
+	err := json.Unmarshal(d.Value, m)
 	if err != nil {
-		g.Logger.Error("unmarshal delivery error", zap.Error(err), zap.ByteString("body", d.Body))
+		g.Logger.Error("unmarshal delivery error", zap.Error(err), zap.ByteString("body", d.Value))
 		return
 	}
 	for _, c := range h.clients {

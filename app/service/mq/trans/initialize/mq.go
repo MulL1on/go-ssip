@@ -1,19 +1,23 @@
 package initialize
 
 import (
-	"fmt"
-	"github.com/streadway/amqp"
-	"go-ssip/app/common/consts"
+	"github.com/IBM/sarama"
 	g "go-ssip/app/service/mq/trans/global"
 	"go.uber.org/zap"
+	"net"
+	"strconv"
 )
 
-func InitMq() *amqp.Connection {
-	cfg := g.ServerConfig.RabbitMQInfo
-	conn, err := amqp.Dial(fmt.Sprintf(consts.RabbitMqUrl, cfg.Username, cfg.Password, cfg.Host, cfg.Port))
+func InitMq() sarama.PartitionConsumer {
+	config := sarama.NewConfig()
+	consumer, err := sarama.NewConsumer([]string{net.JoinHostPort(g.ServerConfig.KafkaInfo.Host, strconv.Itoa(g.ServerConfig.KafkaInfo.Port))}, config)
 	if err != nil {
-		g.Logger.Fatal("connect to rabbitmq failed", zap.Error(err))
+		g.Logger.Fatal("init kafka failed", zap.Error(err))
 	}
 
-	return conn
+	partitionConsumer, err := consumer.ConsumePartition("trans", 0, sarama.OffsetNewest)
+	if err != nil {
+		g.Logger.Fatal("init kafka failed", zap.Error(err))
+	}
+	return partitionConsumer
 }

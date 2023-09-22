@@ -7,24 +7,17 @@ type ConsulConfig struct {
 }
 
 type ServerConfig struct {
-	Name         string         `mapstructure:"name" json:"name"`
-	OtelInfo     OtelConfig     `mapstructure:"otel" json:"otel"`
-	RabbitMQInfo RabbitMQConfig `mapstructure:"rabbitmq" json:"rabbitmq"`
-	MysqlInfo    MysqlConfig    `mapstructure:"mysql" json:"mysql"`
-	MongoDBInfo  MongoDBConfig  `mapstructure:"mongodb" json:"mongodb"`
-	RedisInfo    RedisConfig    `mapstructure:"redis" json:"redis"`
-	LoggerInfo   LoggerConfig   `mapstructure:"logger" json:"logger"`
+	Name        string        `mapstructure:"name" json:"name"`
+	OtelInfo    OtelConfig    `mapstructure:"otel" json:"otel"`
+	MysqlInfo   MysqlConfig   `mapstructure:"mysql" json:"mysql"`
+	MongoDBInfo MongoDBConfig `mapstructure:"mongodb" json:"mongodb"`
+	RedisInfo   RedisConfig   `mapstructure:"redis" json:"redis"`
+	LoggerInfo  LoggerConfig  `mapstructure:"logger" json:"logger"`
+	KafkaInfo   KafkaConfig   `mapstructure:"kafka" json:"kafka"`
 }
 
 type OtelConfig struct {
 	EndPoint string `mapstructure:"endpoint" json:"endpoint"`
-}
-
-type RabbitMQConfig struct {
-	Host     string `mapstructure:"host" json:"host"`
-	Port     int    `mapstructure:"port" json:"port"`
-	Username string `mapstructure:"username" json:"username"`
-	Password string `mapstructure:"password" json:"password"`
 }
 
 type LoggerConfig struct {
@@ -60,4 +53,10 @@ type RedisConfig struct {
 	Username string `mapstructure:"username" json:"username"`
 	Password string `mapstructure:"password" json:"password"`
 	DB       int    `mapstructure:"db" json:"db"`
+}
+
+type KafkaConfig struct {
+	Host    string `mapstructure:"host" json:"host"`
+	Port    int    `mapstructure:"port" json:"port"`
+	Timeout int    `mapstructure:"timeout" json:"timeout"`
 }
