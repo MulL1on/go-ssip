@@ -3,13 +3,10 @@ package main
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"github.com/IBM/sarama"
 	"github.com/spf13/cast"
 	g "go-ssip/app/service/api/ws/global"
 	"go.uber.org/zap"
-	"net"
-	"strconv"
 	"sync"
 )
 
@@ -20,6 +17,8 @@ type Hub struct {
 
 	register   chan *Client
 	unregister chan *Client
+
+	topic string
 }
 
 type Msg struct {
@@ -28,12 +27,14 @@ type Msg struct {
 	Content []byte `json:"content"`
 }
 
-func newHub(delivery <-chan *sarama.ConsumerMessage) *Hub {
+func newHub(delivery <-chan *sarama.ConsumerMessage, topic string) *Hub {
 	return &Hub{
 		register:   make(chan *Client),
 		unregister: make(chan *Client),
 		clients:    make(map[int64]*Client),
 		delivery:   delivery,
+
+		topic: topic,
 	}
 }
 
@@ -56,7 +57,7 @@ func (h *Hub) Register(client *Client) {
 	// TODO: pull offline messages
 
 	// add user status
-	err := g.Rdb.Set(context.Background(), cast.ToString(client.id), fmt.Sprintf(net.JoinHostPort(g.ServerConfig.Host, strconv.Itoa(g.ServerConfig.Port))), 0).Err()
+	err := g.Rdb.Set(context.Background(), cast.ToString(client.id), h.topic, 0).Err()
 	if err != nil {
 		g.Logger.Error("add user redis status error", zap.Error(err))
 		client.conn.Close()

@@ -40,9 +40,8 @@ func (mm *MsgManager) PushToPush(m *model.Msg, st string) error {
 		return err
 	}
 	msg := &sarama.ProducerMessage{
-		Topic: "push",
+		Topic: st,
 		Value: sarama.ByteEncoder(data),
-		Key:   sarama.StringEncoder(st),
 	}
 	_, _, err = mm.producer.SendMessage(msg)
 	if err != nil {

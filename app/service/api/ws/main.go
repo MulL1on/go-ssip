@@ -32,7 +32,7 @@ func main() {
 	r, info := initialize.InitRegistry()
 	tracer, trcCfg := hertztracing.NewServerTracer()
 	rpc.Init()
-	consumer := initialize.InitMq()
+	consumer, topic := initialize.InitMq()
 	defer consumer.Close()
 
 	sh := func(ctx context.Context, c *app.RequestContext, token *gpaseto.Token) {
@@ -48,7 +48,7 @@ func main() {
 		c.JSON(http.StatusUnauthorized, tools.BuildBaseResp(errno.BadRequest.WithMessage("invalid token")))
 		c.Abort()
 	}
-	hub = newHub(consumer.Messages())
+	hub = newHub(consumer.Messages(), topic)
 	go hub.run()
 
 	h := server.New(
