@@ -11,11 +11,12 @@ import (
 )
 
 type DbManager interface {
-	GetMessages(u int64) ([]model.Msg, error)
+	GetMessages(u, min int64) ([]model.Msg, error)
 }
 
 type RedisManager interface {
 	GetUserStatus(ctx context.Context, u int64) (string, error)
+	GetMaxSeq(ctx context.Context, u int64) (int64, error)
 }
 
 type PullMqImpl struct {
@@ -44,8 +45,10 @@ func (s *PullMqImpl) Run(prs <-chan *sarama.ConsumerMessage) {
 			}
 		}
 
+		//maxSeq, err := s.RedisManager.GetMaxSeq(context.Background(), p.UserID)
+
 		// TODO push to push
-		msgs, err := s.DbManager.GetMessages(p.UserID)
+		msgs, err := s.DbManager.GetMessages(p.UserID, p.MinSeq)
 		if err != nil || len(msgs) == 0 {
 			continue
 		}

@@ -19,7 +19,7 @@ func InitMq() (sarama.PartitionConsumer, sarama.SyncProducer) {
 		g.Logger.Fatal("init kafka consumer failed", zap.Error(err))
 	}
 
-	partitionConsumer, err := consumer.ConsumePartition("trans", 0, sarama.OffsetNewest)
+	partitionConsumer, err := consumer.ConsumePartition("pull", 0, sarama.OffsetNewest)
 	if err != nil {
 		g.Logger.Fatal("init kafka consumer failed", zap.Error(err))
 	}

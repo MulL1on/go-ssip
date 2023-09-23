@@ -9,4 +9,5 @@ type Msg struct {
 
 type Pr struct {
 	UserID int64 `json:"user_id"`
+	MinSeq int64 `json:"min_seq"`
 }

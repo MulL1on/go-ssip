@@ -4,20 +4,23 @@ import (
 	"context"
 	"encoding/json"
 	"github.com/cloudwego/hertz/pkg/app"
+	"github.com/cloudwego/hertz/pkg/protocol/consts"
 	"github.com/hertz-contrib/websocket"
 	"github.com/spf13/cast"
 	"go-ssip/app/common/kitex_gen/msg"
 	g "go-ssip/app/service/api/ws/global"
 	"go.uber.org/zap"
 	"log"
+	"strconv"
 	"time"
 )
 
-type Client struct {
+type client struct {
 	id   int64
 	hub  *Hub
 	conn *websocket.Conn
 	send chan []byte
+	seq  int64
 }
 
 const (
@@ -32,7 +35,7 @@ var (
 	space   = []byte{' '}
 )
 
-func (c *Client) readPump() {
+func (c *client) readPump() {
 	defer func() {
 		hub.unregister <- c
 		c.conn.Close()
@@ -67,7 +70,7 @@ func (c *Client) readPump() {
 	}
 }
 
-func (c *Client) writePump() {
+func (c *client) writePump() {
 	ticker := time.NewTicker(pingPeriod)
 	defer func() {
 		ticker.Stop()
@@ -102,17 +105,29 @@ func (c *Client) writePump() {
 }
 
 func serveWs(_ context.Context, c *app.RequestContext) {
+	seqByte := c.Cookie("seq")
+	if len(seqByte) == 0 {
+		c.JSON(consts.StatusBadRequest, "seq not set")
+		return
+	}
+	seq, err := strconv.ParseInt(string(seqByte), 10, 64)
+
+	if err != nil {
+		c.JSON(consts.StatusInternalServerError, "internal error")
+		return
+	}
+
 	id, ok := c.Get("ID")
 	if !ok {
 		g.Logger.Error("get id in context error")
 		return
 	}
 
-	err := upgrader.Upgrade(c, func(conn *websocket.Conn) {
-		client := &Client{id: cast.ToInt64(id), conn: conn, send: make(chan []byte, 256)}
-		hub.register <- client
-		go client.writePump()
-		client.readPump()
+	err = upgrader.Upgrade(c, func(conn *websocket.Conn) {
+		cli := &client{id: cast.ToInt64(id), conn: conn, send: make(chan []byte, 256), seq: cast.ToInt64(seq)}
+		hub.register <- cli
+		go cli.writePump()
+		cli.readPump()
 	})
 	if err != nil {
 		g.Logger.Error("upgrade error", zap.Error(err))

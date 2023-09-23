@@ -49,3 +49,19 @@ func (mm *MsgManager) PushToPush(m *model.Msg, st string) error {
 	}
 	return nil
 }
+
+func (mm *MsgManager) PushToPull(pr *model.Pr) error {
+	data, err := json.Marshal(pr)
+	if err != nil {
+		return err
+	}
+	msg := &sarama.ProducerMessage{
+		Topic: "pull",
+		Value: sarama.ByteEncoder(data),
+	}
+	_, _, err = mm.producer.SendMessage(msg)
+	if err != nil {
+		return err
+	}
+	return nil
+}

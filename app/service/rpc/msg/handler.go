@@ -31,6 +31,7 @@ type RedisManager interface {
 type MqManager interface {
 	PushToTransfer(m *model.Msg) error
 	PushToPush(m *model.Msg, st string) error
+	PushToPull(pr *model.Pr) error
 }
 
 // SendMsg implements the MsgServiceImpl interface.
@@ -77,8 +78,18 @@ func (s *MsgServiceImpl) SendMsg(ctx context.Context, req *msg.SendMsgReq) (resp
 
 // GetMsg implements the MsgServiceImpl interface.
 func (s *MsgServiceImpl) GetMsg(ctx context.Context, req *msg.GetMsgReq) (resp *msg.GetMsgResp, err error) {
+	var pr = &model.Pr{
+		UserID: req.User,
+		MinSeq: req.Seq,
+	}
+	err = s.MqManager.PushToPull(pr)
+	if err != nil {
+		g.Logger.Error("push to pull error", zap.Error(err))
+		resp.BaseResp = tools.BuildBaseResp(errno.MsgSrvErr)
+		return resp, nil
+	}
 
-	return
+	return resp, nil
 }
 
 func (s *MsgServiceImpl) buildMsg(ctx context.Context, u int64, msg *msg.Msg) (*model.Msg, error) {

@@ -20,9 +20,9 @@ func NewMsgManager(db *gorm.DB, coll *mongo.Collection) *MsgManager {
 	}
 }
 
-func (mm *MsgManager) GetMessages(u int64) ([]model.Msg, error) {
+func (mm *MsgManager) GetMessages(u, min int64) ([]model.Msg, error) {
 	var msgs []model.Msg
-	err := mm.db.Model(&model.Msg{UserID: u}).Find(&msgs).Order("seq dsec").Error
+	err := mm.db.Model(&model.Msg{UserID: u}).Find(&msgs).Where("seq > ?", min).Order("seq dsec").Group("from_user").Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
 			g.Logger.Error("no msg for this user", zap.Int64("user_id", u))

@@ -27,3 +27,8 @@ trans:
 pull:
 	@echo "running mq pull"
 	@go run ./app/service/mq/pull &
+
+.PHONY: all
+all:
+	@echo "running all"
+	@make user msg ws http trans

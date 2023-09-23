@@ -5,18 +5,19 @@ import (
 	"encoding/json"
 	"github.com/IBM/sarama"
 	"github.com/spf13/cast"
+	"go-ssip/app/common/kitex_gen/msg"
 	g "go-ssip/app/service/api/ws/global"
 	"go.uber.org/zap"
 	"sync"
 )
 
 type Hub struct {
-	clients     map[int64]*Client
+	clients     map[int64]*client
 	clientsLock sync.RWMutex
 	delivery    <-chan *sarama.ConsumerMessage
 
-	register   chan *Client
-	unregister chan *Client
+	register   chan *client
+	unregister chan *client
 
 	topic string
 }
@@ -29,9 +30,9 @@ type Msg struct {
 
 func newHub(delivery <-chan *sarama.ConsumerMessage, topic string) *Hub {
 	return &Hub{
-		register:   make(chan *Client),
-		unregister: make(chan *Client),
-		clients:    make(map[int64]*Client),
+		register:   make(chan *client),
+		unregister: make(chan *client),
+		clients:    make(map[int64]*client),
 		delivery:   delivery,
 
 		topic: topic,
@@ -53,7 +54,7 @@ func (h *Hub) run() {
 
 // TODO: update redis status && update redis max seq
 
-func (h *Hub) Register(client *Client) {
+func (h *Hub) Register(client *client) {
 	// TODO: pull offline messages
 
 	// add user status
@@ -66,9 +67,26 @@ func (h *Hub) Register(client *Client) {
 	h.clientsLock.Lock()
 	defer h.clientsLock.Unlock()
 	h.clients[client.id] = client
+	var req = &msg.GetMsgReq{
+		User: client.id,
+		Seq:  client.seq,
+	}
+	_, err = g.MsgClient.GetMsg(context.Background(), req)
+	if err != nil {
+		g.Logger.Error("sync msg error", zap.Error(err))
+		client.conn.Close()
+		return
+	}
+
+	if err != nil {
+		g.Logger.Error("sync msg error", zap.Error(err))
+		client.conn.Close()
+		return
+	}
+
 }
 
-func (h *Hub) Unregister(client *Client) {
+func (h *Hub) Unregister(client *client) {
 	h.clientsLock.Lock()
 	defer h.clientsLock.Unlock()
 	// delete user status
