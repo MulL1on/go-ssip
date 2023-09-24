@@ -7,13 +7,14 @@ type ConsulConfig struct {
 }
 
 type ServerConfig struct {
-	Name        string       `mapstructure:"name" json:"name"`
-	Host        string       `mapstructure:"host" json:"host"`
-	Port        int          `mapstructure:"port" json:"port"`
-	PasetoInfo  PasetoConfig `mapstructure:"paseto" json:"paseto"`
-	OtelInfo    OtelConfig   `mapstructure:"otel" json:"otel"`
-	UserSrvInfo RPCSrvConfig `mapstructure:"user_srv" json:"user_srv"`
-	RedisInfo   RedisConfig  `mapstructure:"redis" json:"redis"`
+	Name         string       `mapstructure:"name" json:"name"`
+	Host         string       `mapstructure:"host" json:"host"`
+	Port         int          `mapstructure:"port" json:"port"`
+	PasetoInfo   PasetoConfig `mapstructure:"paseto" json:"paseto"`
+	OtelInfo     OtelConfig   `mapstructure:"otel" json:"otel"`
+	UserSrvInfo  RPCSrvConfig `mapstructure:"user_srv" json:"user_srv"`
+	RedisInfo    RedisConfig  `mapstructure:"redis" json:"redis"`
+	GroupSrvInfo RPCSrvConfig `mapstructure:"group_srv" json:"group_srv"`
 }
 
 type RPCSrvConfig struct {

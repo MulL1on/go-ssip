@@ -12,7 +12,7 @@ struct SendMsgResp {
 }
 
 struct GetMsgReq {
-    1: i64 user
+    1: i64 user_id
     2: i64 seq
 }
 

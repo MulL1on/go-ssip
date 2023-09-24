@@ -21,6 +21,10 @@ const (
 	Err_ServiceErr         Err = 20000
 	Err_RPCUserSrvErr      Err = 30000
 	Err_UserSrvErr         Err = 30001
+	Err_RPCMsgSrvErr       Err = 30002
+	Err_MsgSrvErr          Err = 30003
+	Err_RPCGroupSrvErr     Err = 30004
+	Err_GroupSrvErr        Err = 30005
 	Err_RecordNotFound     Err = 80000
 	Err_RecordAlreadyExist Err = 80001
 	Err_DirtyData          Err = 80003
@@ -48,6 +52,14 @@ func (p Err) String() string {
 		return "RPCUserSrvErr"
 	case Err_UserSrvErr:
 		return "UserSrvErr"
+	case Err_RPCMsgSrvErr:
+		return "RPCMsgSrvErr"
+	case Err_MsgSrvErr:
+		return "MsgSrvErr"
+	case Err_RPCGroupSrvErr:
+		return "RPCGroupSrvErr"
+	case Err_GroupSrvErr:
+		return "GroupSrvErr"
 	case Err_RecordNotFound:
 		return "RecordNotFound"
 	case Err_RecordAlreadyExist:
@@ -80,6 +92,14 @@ func ErrFromString(s string) (Err, error) {
 		return Err_RPCUserSrvErr, nil
 	case "UserSrvErr":
 		return Err_UserSrvErr, nil
+	case "RPCMsgSrvErr":
+		return Err_RPCMsgSrvErr, nil
+	case "MsgSrvErr":
+		return Err_MsgSrvErr, nil
+	case "RPCGroupSrvErr":
+		return Err_RPCGroupSrvErr, nil
+	case "GroupSrvErr":
+		return Err_GroupSrvErr, nil
 	case "RecordNotFound":
 		return Err_RecordNotFound, nil
 	case "RecordAlreadyExist":

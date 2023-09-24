@@ -6,7 +6,7 @@ import (
 	"github.com/spf13/viper"
 	"go-ssip/app/common/consts"
 	"go-ssip/app/common/tools"
-	g "go-ssip/app/service/rpc/msg/global"
+	g "go-ssip/app/service/rpc/group/global"
 	"go.uber.org/zap"
 	"net"
 	"strconv"
@@ -14,7 +14,7 @@ import (
 
 func InitConfig() {
 	v := viper.New()
-	v.SetConfigFile(consts.MsgSrvConfigPath)
+	v.SetConfigFile(consts.GroupSrvConfigPath)
 	if err := v.ReadInConfig(); err != nil {
 		g.Logger.Fatal("read config file failed", zap.Error(err))
 	}

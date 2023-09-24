@@ -4,12 +4,14 @@ import (
 	"context"
 	"encoding/json"
 	"github.com/go-redis/redis/v8"
+	"go-ssip/app/common/consts"
 	"go-ssip/app/common/errno"
 	"go-ssip/app/common/kitex_gen/msg"
 	"go-ssip/app/common/tools"
 	g "go-ssip/app/service/rpc/msg/global"
 	"go-ssip/app/service/rpc/msg/model"
 	"go.uber.org/zap"
+	"gorm.io/gorm"
 )
 
 // MsgServiceImpl implements the last service interface defined in the IDL.
@@ -20,7 +22,7 @@ type MsgServiceImpl struct {
 }
 
 type MysqlManager interface {
-	GetGroupMembers(g int64)
+	GetGroupMembers(g int64) ([]model.GroupMember, error)
 }
 
 type RedisManager interface {
@@ -36,11 +38,12 @@ type MqManager interface {
 
 // SendMsg implements the MsgServiceImpl interface.
 func (s *MsgServiceImpl) SendMsg(ctx context.Context, req *msg.SendMsgReq) (resp *msg.SendMsgResp, err error) {
+	resp = new(msg.SendMsgResp)
 	fu := req.Msg.FromUser
 	switch req.Msg.Type {
-	case 0:
+	case consts.MessageTypeSingleChat:
 		tu := req.Msg.ToUser
-		if tu == fu {
+		if tu == fu || tu == 0 || fu == 0 {
 			resp.BaseResp = tools.BuildBaseResp(errno.MsgSrvErr)
 			return resp, nil
 		}
@@ -69,8 +72,41 @@ func (s *MsgServiceImpl) SendMsg(ctx context.Context, req *msg.SendMsgReq) (resp
 			resp.BaseResp = tools.BuildBaseResp(errno.MsgSrvErr)
 		}
 
-	case 1:
+	case consts.MessageTypeGroupChat:
 		//TODO group msg
+		tg := req.Msg.ToGroup
+
+		if tg == 0 || fu == 0 {
+			resp.BaseResp = tools.BuildBaseResp(errno.MsgSrvErr)
+			return resp, nil
+		}
+
+		groupMembers, err := s.MysqlManager.GetGroupMembers(tg)
+		if err != nil {
+			if err == gorm.ErrRecordNotFound {
+				resp.BaseResp = tools.BuildBaseResp(errno.RecordNotFound)
+				return resp, nil
+			}
+			g.Logger.Error("get group members error", zap.Int64("group_id", tg), zap.Error(err))
+			resp.BaseResp = tools.BuildBaseResp(errno.MsgSrvErr)
+			return resp, nil
+		}
+
+		for _, gm := range groupMembers {
+			gmm, err := s.buildMsg(ctx, gm.UserID, req.Msg)
+			if err != nil {
+				g.Logger.Error("build tu message error")
+				resp.BaseResp = tools.BuildBaseResp(errno.MsgSrvErr)
+				continue
+			}
+			err = s.pushMsg(ctx, gm.UserID, gmm)
+			if err != nil {
+				g.Logger.Error("push gm message error")
+				resp.BaseResp = tools.BuildBaseResp(errno.MsgSrvErr)
+				continue
+			}
+		}
+
 	}
 
 	return resp, nil
@@ -78,6 +114,7 @@ func (s *MsgServiceImpl) SendMsg(ctx context.Context, req *msg.SendMsgReq) (resp
 
 // GetMsg implements the MsgServiceImpl interface.
 func (s *MsgServiceImpl) GetMsg(ctx context.Context, req *msg.GetMsgReq) (resp *msg.GetMsgResp, err error) {
+	resp = new(msg.GetMsgResp)
 	var pr = &model.Pr{
 		UserID: req.User,
 		MinSeq: req.Seq,
@@ -125,7 +162,7 @@ func (s *MsgServiceImpl) pushMsg(ctx context.Context, u int64, m *model.Msg) err
 	st, err := s.RedisManager.GetUserStatus(ctx, u)
 	if err != nil {
 		if err == redis.Nil {
-			g.Logger.Info("tu st not found")
+			g.Logger.Info("tu st not found", zap.Int64("to_user_id", u))
 			return nil
 		}
 		g.Logger.Error("get tu status error", zap.Error(err))

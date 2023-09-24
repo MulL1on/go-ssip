@@ -1,22 +1,24 @@
 package consts
 
 const (
-	UserServiceName = "user"
-	MsgServiceName  = "msg"
-	HttpApiName     = "http_api"
-	WsApiName       = "ws_api"
-	TransMqName     = "trans_mq"
-	PullMqName      = "pull_mq"
+	UserServiceName  = "user_srv"
+	MsgServiceName   = "msg_srv"
+	GroupServiceName = "group_srv"
+	HttpApiName      = "http_api"
+	WsApiName        = "ws_api"
+	TransMqName      = "trans_mq"
+	PullMqName       = "pull_mq"
 
 	FreePortAddress = "localhost:0"
 	TCP             = "tcp"
 
-	UserConfigPath    = "./app/service/rpc/user/config.yaml"
-	MsgConfigPath     = "app/service/rpc/msg/config.yaml"
-	HttpApiConfigPath = "app/service/api/http/config.yaml"
-	WsApiConfigPath   = "app/service/api/ws/config.yaml"
-	TransMqConfigPath = "app/service/mq/trans/config.yaml"
-	PullMqConfigPath  = "app/service/mq/pull/config.yaml"
+	UserSrvConfigPath  = "app/service/rpc/user/config.yaml"
+	MsgSrvConfigPath   = "app/service/rpc/msg/config.yaml"
+	GroupSrvConfigPath = "app/service/rpc/group/config.yaml"
+	HttpApiConfigPath  = "app/service/api/http/config.yaml"
+	WsApiConfigPath    = "app/service/api/ws/config.yaml"
+	TransMqConfigPath  = "app/service/mq/trans/config.yaml"
+	PullMqConfigPath   = "app/service/mq/pull/config.yaml"
 
 	ConsulCheckInterval                       = "7s"
 	ConsulCheckTimeout                        = "5s"
@@ -38,6 +40,6 @@ const (
 	UserID = "uid"
 	User   = "user"
 
-	MessageTypeText  = 0
-	MessageTypeImage = 1
+	MessageTypeSingleChat = 0
+	MessageTypeGroupChat  = 1
 )

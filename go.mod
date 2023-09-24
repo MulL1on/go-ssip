@@ -13,6 +13,7 @@ require (
 	github.com/cloudwego/kitex v0.7.1
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/hashicorp/consul/api v1.24.0
+	github.com/hertz-contrib/gzip v0.0.1
 	github.com/hertz-contrib/http2 v0.1.8
 	github.com/hertz-contrib/obs-opentelemetry/tracing v0.2.2
 	github.com/hertz-contrib/paseto v0.0.0-20230508023022-71af6635a26c
@@ -23,7 +24,6 @@ require (
 	github.com/kitex-contrib/registry-consul v0.0.0-20230406075225-7d341f036654
 	github.com/spf13/cast v1.5.1
 	github.com/spf13/viper v1.16.0
-	github.com/streadway/amqp v1.1.0
 	go.mongodb.org/mongo-driver v1.12.1
 	go.uber.org/zap v1.25.0
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1

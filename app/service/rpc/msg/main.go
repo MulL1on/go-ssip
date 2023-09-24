@@ -53,6 +53,6 @@ func main() {
 
 	err := svr.Run()
 	if err != nil {
-		g.Logger.Info("run error", zap.Error(err))
+		g.Logger.Error("run error", zap.Error(err))
 	}
 }

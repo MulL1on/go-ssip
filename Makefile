@@ -13,6 +13,11 @@ msg:
 	@echo "running msg srv"
 	@go run ./app/service/rpc/msg &
 
+.PHONY: group
+group:
+	@echo "running group srv"
+	@go run ./app/service/rpc/group &
+
 .PHONY: ws
 ws:
 	@echo "running ws api"
@@ -31,4 +36,4 @@ pull:
 .PHONY: all
 all:
 	@echo "running all"
-	@make user msg ws http trans
+	@make user msg ws http trans group pull

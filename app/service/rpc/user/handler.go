@@ -47,8 +47,8 @@ type MysqlManager interface {
 
 // Register implements the UserServiceImpl interface.
 func (s *UserServiceImpl) Register(ctx context.Context, req *user.RegisterReq) (resp *user.RegisterResp, err error) {
-	resp = new(user.RegisterResp)
 	// 判断用户名是否已经存在
+	resp = new(user.RegisterResp)
 	_, err = s.MysqlManager.GetUserByUsername(req.Username)
 	if err == nil {
 		resp.BaseResp = tools.BuildBaseResp(errno.RecordAlreadyExist)

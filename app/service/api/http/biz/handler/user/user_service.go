@@ -38,7 +38,7 @@ func Login(ctx context.Context, c *app.RequestContext) {
 	})
 	if err != nil {
 		g.Logger.Error("rpc user service err", zap.Error(err))
-		resp.BaseResp = tools.BuildBaseResp(errno.ServiceErr)
+		resp.BaseResp = tools.BuildBaseResp(errno.RPCUserSrvErr)
 		c.JSON(http.StatusInternalServerError, resp)
 		return
 	}
@@ -56,11 +56,11 @@ func Login(ctx context.Context, c *app.RequestContext) {
 	c.JSON(http.StatusOK, res)
 }
 
-// Registry .
+// Register .
 // @router /user/register [POST]
-func Registry(ctx context.Context, c *app.RequestContext) {
+func Register(ctx context.Context, c *app.RequestContext) {
 	var err error
-	var req huser.RegistryReq
+	var req huser.RegisterReq
 	resp := new(kuser.RegisterResp)
 	err = c.BindAndValidate(&req)
 	if err != nil {
@@ -86,5 +86,4 @@ func Registry(ctx context.Context, c *app.RequestContext) {
 	}
 	resp.BaseResp = tools.BuildBaseResp(errno.Success)
 	c.JSON(http.StatusOK, res)
-
 }

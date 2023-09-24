@@ -22,7 +22,7 @@ func NewMsgManager(db *gorm.DB, coll *mongo.Collection) *MsgManager {
 
 func (mm *MsgManager) GetMessages(u, min int64) ([]model.Msg, error) {
 	var msgs []model.Msg
-	err := mm.db.Model(&model.Msg{UserID: u}).Find(&msgs).Where("seq > ?", min).Order("seq dsec").Group("from_user").Error
+	err := mm.db.Model(&model.Msg{}).Where("seq > ? and user_id = ?", min, u).Find(&msgs).Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
 			g.Logger.Error("no msg for this user", zap.Int64("user_id", u))
