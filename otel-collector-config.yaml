@@ -5,8 +5,10 @@ receivers:
       http:
 
 exporters:
-  prometheusremotewrite:
-    endpoint: http://victoriametrics:8428/api/v1/write
+  prometheus:
+      endpoint: "0.0.0.0:8889"
+      const_labels:
+        label1: value1
 
   otlp/jaeger:
     endpoint: jaeger-all-in-one:4317
@@ -33,5 +35,5 @@ service:
     metrics:
       receivers: [ otlp ]
       processors: [ batch ]
-      exporters: [ prometheusremotewrite ]
+      exporters: [ prometheus ]
 
