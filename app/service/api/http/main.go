@@ -3,12 +3,14 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"github.com/cloudwego/hertz/pkg/app/server"
 	cfg "github.com/hertz-contrib/http2/config"
 	"github.com/hertz-contrib/http2/factory"
 	hertztracing "github.com/hertz-contrib/obs-opentelemetry/tracing"
 	"github.com/hertz-contrib/pprof"
+	"github.com/kitex-contrib/obs-opentelemetry/provider"
 	"go-ssip/app/common/consts"
 	g "go-ssip/app/service/api/http/global"
 	"go-ssip/app/service/api/http/initialize"
@@ -22,6 +24,12 @@ func main() {
 	r, info := initialize.InitRegistry()
 	tracer, trcCfg := hertztracing.NewServerTracer()
 	rpc.Init()
+	p := provider.NewOpenTelemetryProvider(
+		provider.WithServiceName(g.ServerConfig.Name),
+		provider.WithExportEndpoint(g.ServerConfig.OtelInfo.EndPoint),
+		provider.WithInsecure(),
+	)
+	defer p.Shutdown(context.Background())
 
 	h := server.New(
 		tracer,

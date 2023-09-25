@@ -1,0 +1,232 @@
+[2023-09-23 20:19:16.584]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/logger.go:34	init logger successfully
+[2023-09-23 20:19:16.584]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/config.go:24	read config file successfully	{"config": {"host":"127.0.0.1","port":8500,"key":"go-ssip/ws_api"}}
+[2023-09-23 20:19:16.592]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/config.go:42	get config from consul successfully	{"config": {"name":"ws_api","host":"","port":8080,"otel":{"endpoint":":4317"},"paseto":{"secret_key":"","implicit":"YOUR-IMPLICIT"},"logger":{"SavePath":"","MaxSize":0,"MaxAge":0,"MaxBackups":0,"IsCompress":false,"LogLevel":""},"redis":{"host":"127.0.0.1","port":6379,"username":"","password":"123456","db":0},"msg_srv":{"name":"msg_srv"},"rabbitmq":{"host":"127.0.0.1","port":5672,"username":"guest","password":"guest"},"kafka":{"host":"127.0.0.1","port":9092,"timeout":5}}}
+[2023-09-23 20:19:16.593]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/rdb.go:27	initialize redis successfully.
+[2023-09-23 20:19:16.594]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/rpc/msg_service.go:41	init user client success
+[2023-09-23 20:19:16.594]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/mq.go:15	init kafka	{"addr": "127.0.0.1:9092"}
+[2023-09-23 20:20:09.952]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/logger.go:34	init logger successfully
+[2023-09-23 20:20:09.953]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/config.go:24	read config file successfully	{"config": {"host":"127.0.0.1","port":8500,"key":"go-ssip/ws_api"}}
+[2023-09-23 20:20:09.959]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/config.go:42	get config from consul successfully	{"config": {"name":"ws_api","host":"","port":8080,"otel":{"endpoint":":4317"},"paseto":{"secret_key":"","implicit":"YOUR-IMPLICIT"},"logger":{"SavePath":"","MaxSize":0,"MaxAge":0,"MaxBackups":0,"IsCompress":false,"LogLevel":""},"redis":{"host":"127.0.0.1","port":6379,"username":"","password":"123456","db":0},"msg_srv":{"name":"msg_srv"},"rabbitmq":{"host":"127.0.0.1","port":5672,"username":"guest","password":"guest"},"kafka":{"host":"127.0.0.1","port":9092,"timeout":5}}}
+[2023-09-23 20:20:09.960]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/rdb.go:27	initialize redis successfully.
+[2023-09-23 20:20:09.961]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/rpc/msg_service.go:41	init user client success
+[2023-09-23 20:20:09.961]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/mq.go:15	init kafka	{"addr": "127.0.0.1:9092"}
+[2023-09-24 13:42:09.244]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/logger.go:34	init logger successfully
+[2023-09-24 13:42:09.245]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/config.go:24	read config file successfully	{"config": {"host":"127.0.0.1","port":8500,"key":"go-ssip/ws_api"}}
+[2023-09-24 13:42:09.251]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/config.go:42	get config from consul successfully	{"config": {"name":"ws_api","host":"","port":8080,"otel":{"endpoint":":4317"},"paseto":{"secret_key":"","implicit":"YOUR-IMPLICIT"},"logger":{"SavePath":"","MaxSize":0,"MaxAge":0,"MaxBackups":0,"IsCompress":false,"LogLevel":""},"redis":{"host":"127.0.0.1","port":6379,"username":"","password":"123456","db":0},"msg_srv":{"name":"msg_srv"},"rabbitmq":{"host":"127.0.0.1","port":5672,"username":"guest","password":"guest"},"kafka":{"host":"127.0.0.1","port":9092,"timeout":5}}}
+[2023-09-24 13:42:09.253]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/rdb.go:27	initialize redis successfully.
+[2023-09-24 13:42:09.254]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/rpc/msg_service.go:41	init user client success
+[2023-09-24 13:42:09.254]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/mq.go:15	init kafka	{"addr": "127.0.0.1:9092"}
+[2023-09-24 17:02:45.098]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/logger.go:34	init logger successfully
+[2023-09-24 17:02:45.098]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/config.go:24	read config file successfully	{"config": {"host":"127.0.0.1","port":8500,"key":"go-ssip/ws_api"}}
+[2023-09-24 17:02:45.104]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/config.go:42	get config from consul successfully	{"config": {"name":"ws_api","host":"","port":8080,"otel":{"endpoint":":4317"},"paseto":{"secret_key":"","implicit":"YOUR-IMPLICIT"},"logger":{"SavePath":"","MaxSize":0,"MaxAge":0,"MaxBackups":0,"IsCompress":false,"LogLevel":""},"redis":{"host":"127.0.0.1","port":6379,"username":"","password":"123456","db":0},"msg_srv":{"name":"msg_srv"},"rabbitmq":{"host":"127.0.0.1","port":5672,"username":"guest","password":"guest"},"kafka":{"host":"127.0.0.1","port":9092,"timeout":5}}}
+[2023-09-24 17:02:45.106]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/rdb.go:27	initialize redis successfully.
+[2023-09-24 17:02:45.107]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/rpc/msg_service.go:41	init user client success
+[2023-09-24 17:02:45.107]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/mq.go:15	init kafka	{"addr": "127.0.0.1:9092"}
+[2023-09-24 17:03:12.619]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:03:12.620]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:03:12.621]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:03:12.621]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:03:12.621]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:03:12.622]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:03:12.623]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:03:12.623]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:03:12.623]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:03:12.624]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:03:12.624]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:03:12.625]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:03:12.625]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:03:12.626]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:03:12.626]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:03:12.628]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:04:12.125]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:04:12.125]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:04:12.126]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:04:12.126]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:04:12.127]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:04:12.128]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:04:12.128]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:04:12.129]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:04:12.129]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:04:12.130]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:04:12.130]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:04:12.130]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:04:12.131]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:04:12.132]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:04:12.132]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:04:12.133]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:05:16.886]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:05:16.887]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:05:16.888]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:05:16.888]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:05:16.889]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:05:16.889]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:05:16.890]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:05:16.890]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:05:16.891]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:05:16.891]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:05:16.892]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:05:16.892]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:05:16.893]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:05:16.893]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:05:16.894]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:05:16.894]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:11:05.354]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/logger.go:34	init logger successfully
+[2023-09-24 17:11:05.354]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/config.go:24	read config file successfully	{"config": {"host":"127.0.0.1","port":8500,"key":"go-ssip/ws_api"}}
+[2023-09-24 17:11:05.361]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/config.go:42	get config from consul successfully	{"config": {"name":"ws_api","host":"","port":8080,"otel":{"endpoint":":4317"},"paseto":{"secret_key":"","implicit":"YOUR-IMPLICIT"},"logger":{"SavePath":"","MaxSize":0,"MaxAge":0,"MaxBackups":0,"IsCompress":false,"LogLevel":""},"redis":{"host":"127.0.0.1","port":6379,"username":"","password":"123456","db":0},"msg_srv":{"name":"msg_srv"},"rabbitmq":{"host":"127.0.0.1","port":5672,"username":"guest","password":"guest"},"kafka":{"host":"127.0.0.1","port":9092,"timeout":5}}}
+[2023-09-24 17:11:05.363]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/rdb.go:27	initialize redis successfully.
+[2023-09-24 17:11:05.363]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/rpc/msg_service.go:41	init user client success
+[2023-09-24 17:11:05.363]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/mq.go:15	init kafka	{"addr": "127.0.0.1:9092"}
+[2023-09-24 17:11:11.062]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705049020876984320}
+[2023-09-24 17:11:11.062]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:11:11.063]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705048994423508992}
+[2023-09-24 17:11:11.063]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:11:11.063]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705048994423508992}
+[2023-09-24 17:11:11.063]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:11:11.064]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705049020876984320}
+[2023-09-24 17:11:11.064]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:11:11.064]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705049020876984320}
+[2023-09-24 17:11:11.064]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:11:11.065]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705048994423508992}
+[2023-09-24 17:11:11.065]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:11:11.065]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705049020876984320}
+[2023-09-24 17:11:11.065]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:11:11.066]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705048994423508992}
+[2023-09-24 17:11:11.066]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:11:11.066]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705049020876984320}
+[2023-09-24 17:11:11.066]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:11:11.067]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705048994423508992}
+[2023-09-24 17:11:11.067]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:11:11.067]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705049020876984320}
+[2023-09-24 17:11:11.067]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:11:11.068]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705048994423508992}
+[2023-09-24 17:11:11.068]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:11:11.068]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705049020876984320}
+[2023-09-24 17:11:11.068]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:11:11.069]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705048994423508992}
+[2023-09-24 17:11:11.069]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:11:11.069]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705049020876984320}
+[2023-09-24 17:11:11.069]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:11:11.070]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705048994423508992}
+[2023-09-24 17:11:11.070]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:19:19.015]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705049020876984320}
+[2023-09-24 17:19:19.015]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:19:19.016]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705048994423508992}
+[2023-09-24 17:19:19.016]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:19:19.016]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705048994423508992}
+[2023-09-24 17:19:19.016]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:19:19.016]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705049020876984320}
+[2023-09-24 17:19:19.016]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:19:19.017]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705049020876984320}
+[2023-09-24 17:19:19.017]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:19:19.017]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705048994423508992}
+[2023-09-24 17:19:19.017]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:19:19.017]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705049020876984320}
+[2023-09-24 17:19:19.017]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:19:19.018]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705048994423508992}
+[2023-09-24 17:19:19.018]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:19:19.018]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705049020876984320}
+[2023-09-24 17:19:19.018]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:19:19.018]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705048994423508992}
+[2023-09-24 17:19:19.018]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:19:19.019]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705049020876984320}
+[2023-09-24 17:19:19.019]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:19:19.019]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705048994423508992}
+[2023-09-24 17:19:19.019]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:19:19.019]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705049020876984320}
+[2023-09-24 17:19:19.019]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:19:19.020]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705048994423508992}
+[2023-09-24 17:19:19.020]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:19:19.020]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705049020876984320}
+[2023-09-24 17:19:19.020]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:19:19.020]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705048994423508992}
+[2023-09-24 17:19:19.020]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:20:17.483]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705049020876984320}
+[2023-09-24 17:20:17.483]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:20:17.483]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705048994423508992}
+[2023-09-24 17:20:17.483]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:20:17.484]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705048994423508992}
+[2023-09-24 17:20:17.484]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:20:17.485]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705049020876984320}
+[2023-09-24 17:20:17.485]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:20:17.485]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705049020876984320}
+[2023-09-24 17:20:17.485]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:20:17.485]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705048994423508992}
+[2023-09-24 17:20:17.485]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:20:17.486]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705049020876984320}
+[2023-09-24 17:20:17.486]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:20:17.486]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705048994423508992}
+[2023-09-24 17:20:17.486]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:20:17.486]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705049020876984320}
+[2023-09-24 17:20:17.486]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:20:17.487]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705048994423508992}
+[2023-09-24 17:20:17.487]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:20:17.487]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705049020876984320}
+[2023-09-24 17:20:17.487]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:20:17.488]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705048994423508992}
+[2023-09-24 17:20:17.488]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:20:17.488]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705049020876984320}
+[2023-09-24 17:20:17.488]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:20:17.488]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705048994423508992}
+[2023-09-24 17:20:17.488]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:20:17.489]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705049020876984320}
+[2023-09-24 17:20:17.489]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:20:17.489]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:113	get msg	{"user_id": 1705048994423508992}
+[2023-09-24 17:20:17.489]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:120	no such user on this server
+[2023-09-24 17:22:37.780]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/logger.go:34	init logger successfully
+[2023-09-24 17:22:37.780]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/config.go:24	read config file successfully	{"config": {"host":"127.0.0.1","port":8500,"key":"go-ssip/ws_api"}}
+[2023-09-24 17:22:37.786]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/config.go:42	get config from consul successfully	{"config": {"name":"ws_api","host":"","port":8080,"otel":{"endpoint":":4317"},"paseto":{"secret_key":"","implicit":"YOUR-IMPLICIT"},"logger":{"SavePath":"","MaxSize":0,"MaxAge":0,"MaxBackups":0,"IsCompress":false,"LogLevel":""},"redis":{"host":"127.0.0.1","port":6379,"username":"","password":"123456","db":0},"msg_srv":{"name":"msg_srv"},"rabbitmq":{"host":"127.0.0.1","port":5672,"username":"guest","password":"guest"},"kafka":{"host":"127.0.0.1","port":9092,"timeout":5}}}
+[2023-09-24 17:22:37.788]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/rdb.go:27	initialize redis successfully.
+[2023-09-24 17:22:37.789]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/rpc/msg_service.go:41	init user client success
+[2023-09-24 17:22:37.789]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/mq.go:15	init kafka	{"addr": "127.0.0.1:9092"}
+[2023-09-24 17:24:29.432]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:24:29.432]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:24:29.433]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:24:29.433]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:24:29.434]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:24:29.434]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:24:29.435]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:24:29.435]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:24:29.436]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:24:29.436]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:24:29.436]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:24:29.437]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:24:29.437]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:24:29.438]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:24:29.438]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:24:29.439]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:119	no such user on this server
+[2023-09-24 17:45:41.561]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/client.go:59	unmarshal message fail	{"error": "invalid character ',' looking for beginning of value"}
+[2023-09-25 20:01:40.547]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/logger.go:34	init logger successfully
+[2023-09-25 20:01:40.548]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/config.go:24	read config file successfully	{"config": {"host":"127.0.0.1","port":8500,"key":"go-ssip/ws_api"}}
+[2023-09-25 20:01:40.553]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/config.go:42	get config from consul successfully	{"config": {"name":"ws_api","host":"","port":8080,"otel":{"endpoint":":4317"},"paseto":{"secret_key":"","implicit":"YOUR-IMPLICIT"},"logger":{"SavePath":"","MaxSize":0,"MaxAge":0,"MaxBackups":0,"IsCompress":false,"LogLevel":""},"redis":{"host":"127.0.0.1","port":6379,"username":"","password":"123456","db":0},"msg_srv":{"name":"msg_srv"},"rabbitmq":{"host":"127.0.0.1","port":5672,"username":"guest","password":"guest"},"kafka":{"host":"127.0.0.1","port":9092,"timeout":5}}}
+[2023-09-25 20:01:40.555]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/rdb.go:27	initialize redis successfully.
+[2023-09-25 20:01:40.556]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/rpc/msg_service.go:41	init user client success
+[2023-09-25 20:01:40.557]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/mq.go:15	init kafka	{"addr": "127.0.0.1:9092"}
+[2023-09-25 20:06:00.103]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/logger.go:34	init logger successfully
+[2023-09-25 20:06:00.104]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/config.go:24	read config file successfully	{"config": {"host":"127.0.0.1","port":8500,"key":"go-ssip/ws_api"}}
+[2023-09-25 20:06:00.109]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/config.go:42	get config from consul successfully	{"config": {"name":"ws_api","host":"","port":8080,"otel":{"endpoint":":4317"},"paseto":{"secret_key":"","implicit":"YOUR-IMPLICIT"},"logger":{"SavePath":"","MaxSize":0,"MaxAge":0,"MaxBackups":0,"IsCompress":false,"LogLevel":""},"redis":{"host":"127.0.0.1","port":6379,"username":"","password":"123456","db":0},"msg_srv":{"name":"msg_srv"},"rabbitmq":{"host":"127.0.0.1","port":5672,"username":"guest","password":"guest"},"kafka":{"host":"127.0.0.1","port":9092,"timeout":5}}}
+[2023-09-25 20:06:00.110]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/rdb.go:27	initialize redis successfully.
+[2023-09-25 20:06:00.112]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/rpc/msg_service.go:41	init user client success
+[2023-09-25 20:06:00.112]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/mq.go:15	init kafka	{"addr": "127.0.0.1:9092"}
+[2023-09-25 20:15:25.191]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:96	delete user redis status error	{"error": "dial tcp 127.0.0.1:6379: connect: connection refused"}
+[2023-09-25 20:15:25.265]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:96	delete user redis status error	{"error": "dial tcp 127.0.0.1:6379: connect: connection refused"}
+[2023-09-25 20:29:37.902]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/logger.go:34	init logger successfully
+[2023-09-25 20:29:37.903]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/config.go:24	read config file successfully	{"config": {"host":"127.0.0.1","port":8500,"key":"go-ssip/ws_api"}}
+[2023-09-25 20:29:37.909]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/config.go:42	get config from consul successfully	{"config": {"name":"ws_api","host":"","port":8080,"otel":{"endpoint":":4317"},"paseto":{"secret_key":"","implicit":"YOUR-IMPLICIT"},"logger":{"SavePath":"","MaxSize":0,"MaxAge":0,"MaxBackups":0,"IsCompress":false,"LogLevel":""},"redis":{"host":"127.0.0.1","port":6379,"username":"","password":"123456","db":0},"msg_srv":{"name":"msg_srv"},"rabbitmq":{"host":"127.0.0.1","port":5672,"username":"guest","password":"guest"},"kafka":{"host":"127.0.0.1","port":9092,"timeout":5}}}
+[2023-09-25 20:29:37.911]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/rdb.go:27	initialize redis successfully.
+[2023-09-25 20:29:37.913]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/rpc/msg_service.go:41	init user client success
+[2023-09-25 20:29:37.913]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/mq.go:15	init kafka	{"addr": "127.0.0.1:9092"}
+[2023-09-25 20:29:48.590]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:76	sync msg error	{"error": "service discovery error: no service found"}
+[2023-09-25 20:36:55.711]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/logger.go:34	init logger successfully
+[2023-09-25 20:36:55.712]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/config.go:24	read config file successfully	{"config": {"host":"127.0.0.1","port":8500,"key":"go-ssip/ws_api"}}
+[2023-09-25 20:36:55.717]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/config.go:42	get config from consul successfully	{"config": {"name":"ws_api","host":"","port":8080,"otel":{"endpoint":":4317"},"paseto":{"secret_key":"","implicit":"YOUR-IMPLICIT"},"logger":{"SavePath":"","MaxSize":0,"MaxAge":0,"MaxBackups":0,"IsCompress":false,"LogLevel":""},"redis":{"host":"127.0.0.1","port":6379,"username":"","password":"123456","db":0},"msg_srv":{"name":"msg_srv"},"rabbitmq":{"host":"127.0.0.1","port":5672,"username":"guest","password":"guest"},"kafka":{"host":"127.0.0.1","port":9092,"timeout":5}}}
+[2023-09-25 20:36:55.719]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/rdb.go:27	initialize redis successfully.
+[2023-09-25 20:36:55.721]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/rpc/msg_service.go:41	init user client success
+[2023-09-25 20:36:55.721]	INFO	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/initialize/mq.go:15	init kafka	{"addr": "127.0.0.1:9092"}
+[2023-09-25 20:36:57.368]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:76	sync msg error	{"error": "service discovery error: no service found"}
+[2023-09-25 20:36:59.324]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/client.go:68	msg rpc send msg error	{"error": "service discovery error: no service found"}
+[2023-09-25 20:37:00.183]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/client.go:68	msg rpc send msg error	{"error": "service discovery error: no service found"}
+[2023-09-25 20:37:00.365]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/client.go:68	msg rpc send msg error	{"error": "service discovery error: no service found"}
+[2023-09-25 20:37:00.528]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/client.go:68	msg rpc send msg error	{"error": "service discovery error: no service found"}
+[2023-09-25 20:37:00.674]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/client.go:68	msg rpc send msg error	{"error": "service discovery error: no service found"}
+[2023-09-25 20:41:12.922]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:76	sync msg error	{"error": "service discovery error: no service found"}
+[2023-09-25 20:41:16.188]	ERROR	/home/mull1on/GolandProjects/src/go-ssip/app/service/api/ws/hub.go:76	sync msg error	{"error": "service discovery error: no service found"}

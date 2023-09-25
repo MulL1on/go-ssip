@@ -35,6 +35,7 @@ func InitLogger(serviceName string) {
 }
 
 func getEncoder() zapcore.Encoder {
+	
 	return zapcore.NewConsoleEncoder(zapcore.EncoderConfig{
 		MessageKey:     "message",
 		LevelKey:       "level",

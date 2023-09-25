@@ -10,6 +10,7 @@ import (
 	"github.com/hertz-contrib/paseto"
 	"github.com/hertz-contrib/pprof"
 	"github.com/hertz-contrib/websocket"
+	"github.com/kitex-contrib/obs-opentelemetry/provider"
 	"go-ssip/app/common/consts"
 	"go-ssip/app/common/errno"
 	"go-ssip/app/common/tools"
@@ -34,6 +35,13 @@ func main() {
 	rpc.Init()
 	consumer, topic := initialize.InitMq()
 	defer consumer.Close()
+
+	p := provider.NewOpenTelemetryProvider(
+		provider.WithServiceName(g.ServerConfig.Name),
+		provider.WithExportEndpoint(g.ServerConfig.OtelInfo.EndPoint),
+		provider.WithInsecure(),
+	)
+	defer p.Shutdown(context.Background())
 
 	sh := func(ctx context.Context, c *app.RequestContext, token *gpaseto.Token) {
 		id, err := token.GetString("id")
