@@ -9,4 +9,4 @@ elasticsearch.hosts: [ "http://elasticsearch:9200" ]
 
 
 elasticsearch.username: kibana_system
-elasticsearch.password: MK3mo1s_=z+ntoBCjkrP 
+elasticsearch.password: PeW7GeFS1Krg8IfiB2XD
