@@ -19,7 +19,7 @@ func InitLogger(serviceName string) {
 		ecszap.NewCore(
 			getECSEncoder(),
 			zapcore.AddSync(&lumberjack.Logger{
-				Filename:   "tmp/" + serviceName + ".json",
+				Filename:   "tmp/" + serviceName + ".log",
 				MaxSize:    5,
 				MaxAge:     400,
 				MaxBackups: 1000,
