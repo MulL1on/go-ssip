@@ -15,17 +15,19 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"sync"
 	"time"
 )
 
 type client struct {
-	clientId  int64
-	id        int64
-	hub       *Hub
-	conn      *websocket.Conn
-	send      chan []byte
-	seq       int64
-	timeWheel map[int64][]byte
+	clientId      int64
+	id            int64
+	hub           *Hub
+	conn          *websocket.Conn
+	send          chan []byte
+	seq           int64
+	timeWheel     map[int64][]byte
+	timeWheelLock sync.RWMutex
 }
 
 const (
@@ -66,12 +68,16 @@ func (c *client) readPump() {
 			// 获取 seq
 			payload := &command.AckMsgPayload{}
 			payload.Decode(cmd.Payload)
+
+			// 加锁保护
+			c.timeWheelLock.Lock()
 			m, ok := c.timeWheel[payload.Seq]
 			if !ok || m == nil {
+				c.timeWheelLock.Unlock()
 				continue
 			}
-			// 加锁保护
 			delete(c.timeWheel, payload.Seq)
+			c.timeWheelLock.Unlock()
 		case consts.CommandTypeSendMsg:
 			var m = &base.Msg{}
 

@@ -2,14 +2,11 @@ package command
 
 import (
 	"encoding/binary"
-	"time"
 )
 
 type Command struct {
-	Type       uint32
-	Payload    []byte
-	RetryCount int
-	Timer      time.Timer
+	Type    uint32
+	Payload []byte
 }
 
 func (cmd *Command) Encode() []byte {

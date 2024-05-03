@@ -125,17 +125,23 @@ func (h *Hub) Push(d *sarama.ConsumerMessage) {
 
 			// 添加一个定时器接收 ack 消息
 			m.Timer = time.NewTimer(3 * time.Second)
+
+			// 加锁保护
+			c.timeWheelLock.Lock()
 			c.timeWheel[m.Seq] = d.Value
+			c.timeWheelLock.Unlock()
+
 			go func(m *Msg) {
 				for {
 					select {
 					case <-m.Timer.C:
+						c.timeWheelLock.RLock()
 						if _, ok := c.timeWheel[m.Seq]; ok {
 							h.RetrySendMessage(m)
 						} else {
 							m.Timer.Stop()
-							return
 						}
+						c.timeWheelLock.RUnlock()
 					}
 				}
 			}(m)

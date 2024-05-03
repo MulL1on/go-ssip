@@ -46,6 +46,7 @@ const (
 	CommandTypeSendMsg
 	CommandTypeAckClientId
 	CommandTypeGetMsg
+	CommandTypePullMsg
 )
 
 const (

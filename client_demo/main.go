@@ -41,16 +41,18 @@ var (
 
 func main() {
 	args := os.Args
-	var token string
-	var toUserId int64
-	mode, _ := strconv.Atoi(args[1])
-	switch mode {
-	case 1:
-		token = zzf_token
-		toUserId = lwj
-	case 0:
-		token = lwj_token
-		toUserId = zzf
+	token := lwj_token
+	toUserId := zzf
+	if len(args) > 1 {
+		mode, _ := strconv.Atoi(args[1])
+		switch mode {
+		case 1:
+			token = zzf_token
+			toUserId = lwj
+		case 0:
+			token = lwj_token
+			toUserId = zzf
+		}
 	}
 
 	url := "ws://localhost:8080/"
