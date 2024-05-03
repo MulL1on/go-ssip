@@ -7,13 +7,12 @@ type ConsulConfig struct {
 }
 
 type ServerConfig struct {
-	Name        string        `mapstructure:"name" json:"name"`
-	OtelInfo    OtelConfig    `mapstructure:"otel" json:"otel"`
-	MysqlInfo   MysqlConfig   `mapstructure:"mysql" json:"mysql"`
-	MongoDBInfo MongoDBConfig `mapstructure:"mongodb" json:"mongodb"`
-	RedisInfo   RedisConfig   `mapstructure:"redis" json:"redis"`
-	LoggerInfo  LoggerConfig  `mapstructure:"logger" json:"logger"`
-	KafkaInfo   KafkaConfig   `mapstructure:"kafka" json:"kafka"`
+	Name       string       `mapstructure:"name" json:"name"`
+	OtelInfo   OtelConfig   `mapstructure:"otel" json:"otel"`
+	MysqlInfo  MysqlConfig  `mapstructure:"mysql" json:"mysql"`
+	RedisInfo  RedisConfig  `mapstructure:"redis" json:"redis"`
+	LoggerInfo LoggerConfig `mapstructure:"logger" json:"logger"`
+	KafkaInfo  KafkaConfig  `mapstructure:"kafka" json:"kafka"`
 }
 
 type OtelConfig struct {
@@ -36,15 +35,6 @@ type MysqlConfig struct {
 	User     string `mapstructure:"user" json:"user"`
 	Password string `mapstructure:"password" json:"password"`
 	Salt     string `mapstructure:"salt" json:"salt"`
-}
-
-type MongoDBConfig struct {
-	Host       string `mapstructure:"host" json:"host"`
-	Port       int    `mapstructure:"port" json:"port"`
-	Name       string `mapstructure:"db" json:"db"`
-	User       string `mapstructure:"user" json:"user"`
-	Password   string `mapstructure:"password" json:"password"`
-	Collection string `mapstructure:"collection" json:"collection"`
 }
 
 type RedisConfig struct {

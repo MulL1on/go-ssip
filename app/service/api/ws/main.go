@@ -56,6 +56,7 @@ func main() {
 		c.JSON(http.StatusUnauthorized, tools.BuildBaseResp(errno.BadRequest.WithMessage("invalid token")))
 		c.Abort()
 	}
+
 	hub = newHub(consumer.Messages(), topic)
 	defer func() {
 		for _, c := range hub.clients {

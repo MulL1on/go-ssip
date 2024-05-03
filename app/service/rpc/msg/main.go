@@ -10,11 +10,11 @@ import (
 	"github.com/kitex-contrib/obs-opentelemetry/tracing"
 	"go-ssip/app/common/consts"
 	"go-ssip/app/common/kitex_gen/msg/msgservice"
+	"go-ssip/app/service/mq/transfer/pkg/rdb"
 	g "go-ssip/app/service/rpc/msg/global"
 	"go-ssip/app/service/rpc/msg/initialize"
 	"go-ssip/app/service/rpc/msg/pkg/mq"
 	"go-ssip/app/service/rpc/msg/pkg/mysql"
-	"go-ssip/app/service/rpc/msg/pkg/rdb"
 	"go.uber.org/zap"
 	"net"
 	"strconv"
@@ -40,7 +40,7 @@ func main() {
 	svr := msgservice.NewServer(&MsgServiceImpl{
 		MysqlManager: mysql.NewMsgManager(mysqlclient),
 		RedisManager: rdb.NewRedisManager(redisclient),
-		MqManager:    mq.NewMsgManager(producer),
+		MqManager:    mq.NewMqManager(producer),
 	},
 
 		server.WithServiceAddr(utils.NewNetAddr("tcp", net.JoinHostPort(IP, strconv.Itoa(Port)))),

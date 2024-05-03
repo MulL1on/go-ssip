@@ -20,7 +20,7 @@ func main() {
 	handler := &PullMqImpl{
 		DbManager:    db.NewMsgManager(mysqlclient, mongodbclient),
 		RedisManager: rdb.NewRedisManager(redisclient),
-		MqManager:    mq.NewMsgManager(producer),
+		MqManager:    mq.NewMqManager(producer),
 	}
 
 	handler.Run(consumer.Messages())

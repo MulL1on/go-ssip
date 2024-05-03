@@ -3,15 +3,18 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"github.com/IBM/sarama"
 	"github.com/go-redis/redis/v8"
+	"go-ssip/app/common/command"
+	"go-ssip/app/common/consts"
 	g "go-ssip/app/service/mq/pull/global"
 	"go-ssip/app/service/mq/pull/model"
 	"go.uber.org/zap"
 )
 
 type DbManager interface {
-	GetMessages(u, min int64) ([]model.Msg, error)
+	GetMessages(u, min int64) ([]*model.Msg, error)
 }
 
 type RedisManager interface {
@@ -26,7 +29,7 @@ type PullMqImpl struct {
 }
 
 type MqManager interface {
-	PushToPush(m *model.Msg, st string) error
+	PushToPush(cmd *command.Command, st string) error
 }
 
 func (s *PullMqImpl) Run(prs <-chan *sarama.ConsumerMessage) {
@@ -39,7 +42,7 @@ func (s *PullMqImpl) Run(prs <-chan *sarama.ConsumerMessage) {
 		}
 		st, err := s.RedisManager.GetUserStatus(context.Background(), p.UserID)
 		if err != nil {
-			if err == redis.Nil {
+			if errors.Is(err, redis.Nil) {
 				g.Logger.Error("u st not found", zap.Int64("user_id", p.UserID))
 				continue
 			}
@@ -53,7 +56,16 @@ func (s *PullMqImpl) Run(prs <-chan *sarama.ConsumerMessage) {
 			continue
 		}
 		for _, m := range msgs {
-			s.MqManager.PushToPush(&m, st)
+			data, _ := json.Marshal(m)
+			cmd := &command.Command{
+				ClientId: 0,
+				Type:     consts.CommandTypeGetMsg,
+				Payload:  data,
+			}
+			err := s.MqManager.PushToPush(cmd, st)
+			if err != nil {
+				return
+			}
 		}
 	}
 }

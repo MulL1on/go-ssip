@@ -9,16 +9,6 @@ import (
 	"time"
 )
 
-//func InitMq() *amqp.Connection {
-//	cfg := g.ServerConfig.RabbitMQInfo
-//	conn, err := amqp.Dial(fmt.Sprintf(consts.RabbitMqUrl, cfg.Username, cfg.Password, cfg.Host, cfg.Port))
-//	if err != nil {
-//		g.Logger.Fatal("connect to rabbitmq failed", zap.Error(err))
-//	}
-//
-//	return conn
-//}
-
 func InitMq() sarama.SyncProducer {
 	config := sarama.NewConfig()
 	config.Producer.Return.Successes = true

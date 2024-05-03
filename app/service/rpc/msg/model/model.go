@@ -3,9 +3,11 @@ package model
 import "time"
 
 type Msg struct {
-	UserID  int64  `json:"user_id"`
-	Seq     int64  `json:"seq"`
-	Content []byte `json:"content"`
+	Type       int8      `json:"type"`
+	UserID     int64     `json:"user_id"`
+	Seq        int64     `json:"seq"`
+	Content    []byte    `json:"content"`
+	CreateTime time.Time `json:"create_time"`
 }
 
 type Pr struct {

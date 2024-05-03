@@ -5,10 +5,13 @@ import (
 	"encoding/json"
 	"github.com/IBM/sarama"
 	"github.com/spf13/cast"
+	"go-ssip/app/common/command"
+	"go-ssip/app/common/consts"
 	"go-ssip/app/common/kitex_gen/msg"
 	g "go-ssip/app/service/api/ws/global"
 	"go.uber.org/zap"
 	"sync"
+	"time"
 )
 
 type Hub struct {
@@ -23,9 +26,12 @@ type Hub struct {
 }
 
 type Msg struct {
-	UserID  int64  `json:"user_id"`
-	Seq     int64  `json:"seq"`
-	Content []byte `json:"content"`
+	UserID     int64  `json:"user_id"`
+	Seq        int64  `json:"seq"`
+	Content    []byte `json:"content"`
+	ClientId   int64  `json:"client_id"`
+	Timer      *time.Timer
+	RetryCount int
 }
 
 func newHub(delivery <-chan *sarama.ConsumerMessage, topic string) *Hub {
@@ -68,8 +74,8 @@ func (h *Hub) Register(client *client) {
 	defer h.clientsLock.Unlock()
 	h.clients[client.id] = client
 	var req = &msg.GetMsgReq{
-		User: client.id,
-		Seq:  client.seq,
+		UserId: client.id,
+		Seq:    client.seq,
 	}
 	_, err = g.MsgClient.GetMsg(context.Background(), req)
 	if err != nil {
@@ -77,13 +83,6 @@ func (h *Hub) Register(client *client) {
 		client.conn.Close()
 		return
 	}
-
-	if err != nil {
-		g.Logger.Error("sync msg error", zap.Error(err))
-		client.conn.Close()
-		return
-	}
-
 }
 
 func (h *Hub) Unregister(client *client) {
@@ -104,17 +103,67 @@ func (h *Hub) Unregister(client *client) {
 }
 
 func (h *Hub) Push(d *sarama.ConsumerMessage) {
-	var m = &Msg{}
-	err := json.Unmarshal(d.Value, m)
-	if err != nil {
-		g.Logger.Error("unmarshal delivery error", zap.Error(err), zap.ByteString("body", d.Value))
-		return
-	}
-	for _, c := range h.clients {
-		if c.id == m.UserID {
-			c.send <- m.Content
+	cmd := &command.Command{}
+	cmd.Decode(d.Value)
+
+	switch cmd.Type {
+	case consts.CommandTypeGetMsg:
+		var m = &Msg{}
+		err := json.Unmarshal(cmd.Payload, m)
+		if err != nil {
+			g.Logger.Error("unmarshal delivery error", zap.Error(err), zap.ByteString("body", d.Value))
 			return
 		}
+		h.clientsLock.RLock()
+		defer h.clientsLock.RUnlock()
+		c, ok := h.clients[m.UserID]
+		if !ok || c == nil {
+			return
+		}
+		if c.id == m.UserID {
+			c.send <- d.Value
+
+			// 添加一个定时器接收 ack 消息
+			m.Timer = time.NewTimer(3 * time.Second)
+			c.timeWheel[m.Seq] = d.Value
+			go func(m *Msg) {
+				for {
+					select {
+					case <-m.Timer.C:
+						if _, ok := c.timeWheel[m.Seq]; ok {
+							h.RetrySendMessage(m)
+						} else {
+							m.Timer.Stop()
+							return
+						}
+					}
+				}
+			}(m)
+
+			return
+		}
+	case consts.CommandTypeAckClientId:
+		payload := command.AckClientIdPayload{}
+		payload.Decode(cmd.Payload)
+		c, ok := h.clients[payload.UserId]
+		if !ok {
+			return
+		}
+		c.send <- d.Value
 	}
-	g.Logger.Error("no such user on this server")
+}
+
+func (h *Hub) RetrySendMessage(m *Msg) {
+	m.RetryCount++
+	h.clientsLock.RLock()
+	c, ok := h.clients[m.UserID]
+	defer h.clientsLock.RUnlock()
+	if !ok || m.RetryCount > 3 || c == nil {
+		return
+	}
+
+	m.Timer.Reset(3 * time.Second)
+	cmdBuf := c.timeWheel[m.Seq]
+	c.send <- cmdBuf
+	return
 }

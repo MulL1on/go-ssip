@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"github.com/hertz-contrib/paseto"
 	"go-ssip/app/common/consts"
 	"go-ssip/app/common/errno"
@@ -75,7 +76,7 @@ func (s *UserServiceImpl) Auth(ctx context.Context, req *user.AuthReq) (resp *us
 	resp = new(user.AuthResp)
 	u, err := s.MysqlManager.GetUserByUsername(req.Username)
 	if err != nil {
-		if err == errno.RecordNotFound {
+		if errors.Is(err, errno.RecordNotFound) {
 			resp.BaseResp = tools.BuildBaseResp(errno.RecordNotFound)
 			return resp, nil
 		}

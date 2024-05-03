@@ -26,19 +26,12 @@ type ServerConfig struct {
 	MysqlInfo  MysqlConfig  `mapstructure:"mysql" json:"mysql"`
 	OtelInfo   OtelConfig   `mapstructure:"otel" json:"otel"`
 	PasetoInfo PasetoConfig `mapstructure:"paseto" json:"paseto"`
-	JwtInfo    JwtConfig    `mapstructure:"jwt" json:"jwt"`
 	LoggerInfo LoggerConfig `mapstructure:"logger" json:"logger"`
 }
 
 type PasetoConfig struct {
 	SecretKey string `mapstructure:"secret_key" json:"secret_key"`
 	Implicit  string `mapstructure:"implicit" json:"implicit"`
-}
-
-type JwtConfig struct {
-	SecretKey   string `mapstructure:"secretKey" yaml:"secretKey"`
-	ExpiresTime int64  `mapstructure:"expiresTime" yaml:"expiresTime"`
-	Issuer      string `mapstructure:"issuer" yaml:"issuer"`
 }
 
 type LoggerConfig struct {

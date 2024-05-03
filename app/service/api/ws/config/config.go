@@ -11,16 +11,15 @@ type OtelConfig struct {
 }
 
 type ServerConfig struct {
-	Name         string         `mapstructure:"name" json:"name"`
-	Host         string         `mapstructure:"host" json:"host"`
-	Port         int            `mapstructure:"port" json:"port"`
-	OtelInfo     OtelConfig     `mapstructure:"otel" json:"otel"`
-	PasetoInfo   PasetoConfig   `mapstructure:"paseto" json:"paseto"`
-	LoggerInfo   LoggerConfig   `mapstructure:"logger" json:"logger"`
-	RedisInfo    RedisConfig    `mapstructure:"redis" json:"redis"`
-	MsgSrvInfo   RPCSrvConfig   `mapstructure:"msg_srv" json:"msg_srv"`
-	RabbitMQInfo RabbitMQConfig `mapstructure:"rabbitmq" json:"rabbitmq"`
-	KafkaInfo    KafkaConfig    `mapstructure:"kafka" json:"kafka"`
+	Name       string       `mapstructure:"name" json:"name"`
+	Host       string       `mapstructure:"host" json:"host"`
+	Port       int          `mapstructure:"port" json:"port"`
+	OtelInfo   OtelConfig   `mapstructure:"otel" json:"otel"`
+	PasetoInfo PasetoConfig `mapstructure:"paseto" json:"paseto"`
+	LoggerInfo LoggerConfig `mapstructure:"logger" json:"logger"`
+	RedisInfo  RedisConfig  `mapstructure:"redis" json:"redis"`
+	MsgSrvInfo RPCSrvConfig `mapstructure:"msg_srv" json:"msg_srv"`
+	KafkaInfo  KafkaConfig  `mapstructure:"kafka" json:"kafka"`
 }
 
 type PasetoConfig struct {
@@ -47,13 +46,6 @@ type RedisConfig struct {
 
 type RPCSrvConfig struct {
 	Name string `mapstructure:"name" json:"name"`
-}
-
-type RabbitMQConfig struct {
-	Host     string `mapstructure:"host" json:"host"`
-	Port     int    `mapstructure:"port" json:"port"`
-	Username string `mapstructure:"username" json:"username"`
-	Password string `mapstructure:"password" json:"password"`
 }
 
 type KafkaConfig struct {

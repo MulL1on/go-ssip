@@ -1,2 +1,2 @@
-namespace go group
+namespace go base
 

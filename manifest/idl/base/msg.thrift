@@ -1,4 +1,4 @@
-namespace go msg
+namespace go base
 
 struct Msg {
     1: i8 type
@@ -7,6 +7,7 @@ struct Msg {
     5: i64 to_group
     6: string text
     7: i64 seq
+    8: i64  client_id
 }
 
 struct  GroupMsg{

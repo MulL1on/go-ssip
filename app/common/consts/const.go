@@ -17,7 +17,7 @@ const (
 	GroupSrvConfigPath = "app/service/rpc/group/config.yaml"
 	HttpApiConfigPath  = "app/service/api/http/config.yaml"
 	WsApiConfigPath    = "app/service/api/ws/config.yaml"
-	TransMqConfigPath  = "app/service/mq/trans/config.yaml"
+	TransMqConfigPath  = "app/service/mq/transfer/config.yaml"
 	PullMqConfigPath   = "app/service/mq/pull/config.yaml"
 
 	ConsulCheckInterval                       = "7s"
@@ -39,7 +39,16 @@ const (
 
 	UserID = "uid"
 	User   = "user"
+)
 
-	MessageTypeSingleChat = 0
-	MessageTypeGroupChat  = 1
+const (
+	CommandTypeAckMsg uint32 = iota
+	CommandTypeSendMsg
+	CommandTypeAckClientId
+	CommandTypeGetMsg
+)
+
+const (
+	MessageTypeSingleChat int8 = iota
+	MessageTypeGroupChat
 )
