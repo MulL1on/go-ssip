@@ -9,19 +9,18 @@ import (
 	"gorm.io/gorm"
 )
 
-type MsgManager struct {
+type MysqlManager struct {
 	db   *gorm.DB
 	coll *mongo.Collection
 }
 
-func NewMsgManager(db *gorm.DB, coll *mongo.Collection) *MsgManager {
-	return &MsgManager{
-		db:   db,
-		coll: coll,
+func NewMysqlManager(db *gorm.DB) *MysqlManager {
+	return &MysqlManager{
+		db: db,
 	}
 }
 
-func (mm *MsgManager) GetMessages(u, min int64) ([]*model.Msg, error) {
+func (mm *MysqlManager) GetMessages(u, min int64) ([]*model.Msg, error) {
 	var msgs []*model.Msg
 	err := mm.db.Model(&model.Msg{}).Where("seq > ? and user_id = ?", min, u).Find(&msgs).Error
 	if err != nil {

@@ -12,13 +12,12 @@ func main() {
 	initialize.InitLogger(consts.PullMqName)
 	initialize.InitConfig()
 	mysqlclient := initialize.InitDB()
-	mongodbclient := initialize.InitMdb()
 	consumer, producer := initialize.InitMq()
 	redisclient := initialize.InitRdb()
 	defer consumer.Close()
 
 	handler := &PullMqImpl{
-		DbManager:    db.NewMsgManager(mysqlclient, mongodbclient),
+		DbManager:    db.NewMysqlManager(mysqlclient),
 		RedisManager: rdb.NewRedisManager(redisclient),
 		MqManager:    mq.NewMqManager(producer),
 	}

@@ -58,9 +58,8 @@ func (s *PullMqImpl) Run(prs <-chan *sarama.ConsumerMessage) {
 		for _, m := range msgs {
 			data, _ := json.Marshal(m)
 			cmd := &command.Command{
-				ClientId: 0,
-				Type:     consts.CommandTypeGetMsg,
-				Payload:  data,
+				Type:    consts.CommandTypeGetMsg,
+				Payload: data,
 			}
 			err := s.MqManager.PushToPush(cmd, st)
 			if err != nil {

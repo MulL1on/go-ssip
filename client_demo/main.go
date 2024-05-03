@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"sync"
 	"time"
 )
 
@@ -34,9 +35,10 @@ const (
 )
 
 var (
-	clientId  int64
-	toGroup   int64
-	timeWheel = make(map[int64][]byte)
+	clientId      int64
+	toGroup       int64
+	timeWheel     = make(map[int64][]byte)
+	timeWheelLock sync.RWMutex
 )
 
 func main() {
@@ -101,21 +103,29 @@ func main() {
 		cmdBuf := cmd.Encode()
 		c.send <- cmdBuf
 		m.Timer = time.NewTimer(3 * time.Second)
+		timeWheelLock.Lock()
 		timeWheel[m.ClientId] = cmdBuf
+		timeWheelLock.Unlock()
 		go func(m *Msg) {
 			for {
 				select {
 				case <-m.Timer.C:
+					timeWheelLock.RLock()
 					if _, ok := timeWheel[m.ClientId]; ok {
 						if m.RetryCount > 3 {
 							log.Println("exec retry count")
 							m.Timer.Stop()
+							timeWheelLock.RUnlock()
 							return
 						}
 						m.RetryCount++
 						c.send <- timeWheel[m.ClientId]
 						m.Timer.Reset(3 * time.Second)
+					} else {
+						timeWheelLock.RUnlock()
+						return
 					}
+					timeWheelLock.RUnlock()
 				}
 			}
 		}(m)
